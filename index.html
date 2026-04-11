@@ -3,13 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>المنصة الوطنية للمؤسسات والخدمات التربوية</title>
+    <title>المنصة الوطنية الموحدة للتربية | اتجاهات ذكية</title>
     <style>
         :root {
             --algeria-green: #006633;
             --algeria-red: #d21034;
             --gold-accent: #c5a059;
             --bg-color: #f8fafc;
+            --btn-gray: #1e293b;
         }
 
         body { font-family: 'Segoe UI', Tahoma, sans-serif; background-color: var(--bg-color); margin: 0; color: #333; }
@@ -23,7 +24,6 @@
 
         .main-container { max-width: 900px; margin: -40px auto 40px; padding: 0 20px; }
 
-        /* منطقة البحث */
         .search-box {
             background: white; padding: 25px; border-radius: 20px;
             box-shadow: 0 15px 35px rgba(0,0,0,0.1); text-align: center;
@@ -34,7 +34,6 @@
             width: 70%; padding: 15px 25px; border: 2px solid #e2e8f0;
             border-radius: 50px; font-size: 16px; outline: none; transition: 0.3s;
         }
-        input:focus { border-color: var(--algeria-green); }
 
         button {
             background: var(--algeria-green); color: white; border: none;
@@ -42,43 +41,41 @@
             font-weight: bold; margin-right: 10px;
         }
 
-        /* قسم المعاهد الوطنية */
-        .section-title {
-            color: var(--algeria-green); border-right: 5px solid var(--gold-accent);
-            padding-right: 15px; margin: 40px 0 20px; font-size: 20px;
+        /* تنسيق الأزرار الجديدة المستوحاة من صورتك */
+        .action-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 12px; margin-top: 20px; }
+        
+        .action-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px;
+            background: #242424; /* لون داكن كما في الصورة */
+            color: white;
+            border-radius: 30px;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: bold;
+            transition: 0.3s;
+            border: 1px solid #444;
         }
 
-        .institutes-grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px; margin-bottom: 40px;
-        }
+        .action-link:hover { background: #444; transform: scale(1.02); }
+        .action-link.call { grid-column: span 2; background: #242424; margin-top: 5px; } /* زر الاتصال عريض */
 
+        .icon-svg { width: 18px; height: 18px; fill: #8ab4f8; } /* لون أيقونات جوجل ماب */
+
+        .section-title { color: var(--algeria-green); border-right: 5px solid var(--gold-accent); padding-right: 15px; margin: 40px 0 20px; font-size: 20px; }
+        
+        .institutes-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+        
         .inst-card {
             background: white; border-radius: 15px; padding: 20px;
             box-shadow: 0 5px 15px rgba(0,0,0,0.05); border-bottom: 4px solid #eee;
-            transition: 0.3s; text-decoration: none; color: inherit;
-            display: flex; flex-direction: column; align-items: center; text-align: center;
+            transition: 0.3s; color: inherit;
         }
-
-        .inst-card:hover { transform: translateY(-5px); border-bottom-color: var(--gold-accent); }
-        .inst-card img { width: 60px; height: 60px; margin-bottom: 15px; }
-        .inst-card h3 { font-size: 15px; margin: 0; color: #1e293b; }
-
-        /* منطقة نتائج البحث */
-        #resultArea { display: none; margin-bottom: 40px; }
-        .result-card {
-            background: white; border-radius: 20px; padding: 30px;
-            border-top: 8px solid var(--algeria-green); animation: fadeIn 0.5s ease;
-        }
-
-        .action-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 20px; }
-        .action-link {
-            padding: 15px; background: #f8fafc; border: 1px solid #e2e8f0;
-            border-radius: 12px; text-decoration: none; color: #1e293b;
-            text-align: center; font-size: 13px; font-weight: bold;
-        }
-        .action-link:hover { background: #ecfdf5; color: var(--algeria-green); }
-
+        
+        #resultArea { display: none; margin-bottom: 40px; animation: fadeIn 0.5s ease; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
@@ -86,81 +83,79 @@
 
     <header>
         <h1>🇩🇿 المنصة الوطنية الموحدة للتربية</h1>
-        <p>البحث عن المؤسسات | المعاهد الوطنية | الدواوين المركزية</p>
+        <p>دليلك الذكي للمؤسسات والاتجاهات الملاحية</p>
     </header>
 
     <div class="main-container">
         
         <div class="search-box">
-            <input type="text" id="target" placeholder="ابحث عن أي مؤسسة (ابتدائية، متوسطة، ثانوية)..." onkeypress="if(event.key==='Enter') searchNow()">
-            <button onclick="searchNow()">بحث ذكي</button>
+            <input type="text" id="target" placeholder="ابحث عن أي مؤسسة (اسم المؤسسة + الولاية)..." onkeypress="if(event.key==='Enter') searchNow()">
+            <button onclick="searchNow()">بحث</button>
         </div>
 
         <div id="resultArea">
-            <div class="result-card">
-                <h2 id="displayTitle" style="font-size: 20px; margin-bottom: 20px;"></h2>
+            <div style="background: white; border-radius: 20px; padding: 25px; border-top: 8px solid var(--algeria-green);">
+                <h2 id="displayTitle" style="font-size: 18px; margin-bottom: 15px;"></h2>
+                
                 <div class="action-grid">
-                    <a id="pLink" href="#" target="_blank" class="action-link">📞 الهاتف</a>
-                    <a id="mLink" href="#" target="_blank" class="action-link">📍 الموقع</a>
-                    <a id="phLink" href="#" target="_blank" class="action-link">📸 الصور</a>
-                    <a id="fLink" href="#" target="_blank" class="action-link">🌐 فيسبوك</a>
+                    <a id="dirLink" href="#" target="_blank" class="action-link">
+                        <svg class="icon-svg" viewBox="0 0 24 24"><path d="M22.43 10.59l-9.01-9.01c-.75-.75-1.96-.75-2.71 0l-9.01 9.01c-.75.75-.75 1.96 0 2.71l9.01 9.01c.75.75 1.96.75 2.71 0l9.01-9.01c.75-.76.75-1.97 0-2.71zM11 18V9l-4 4h9v5h-2v-3H9l2-2v5z"/></svg>
+                        <span>الاتجاهات</span>
+                    </a>
+                    
+                    <a id="mLink" href="#" target="_blank" class="action-link">
+                        <span>📍 الموقع</span>
+                    </a>
+
+                    <a id="phLink" href="#" target="_blank" class="action-link">
+                        <span>📸 الصور</span>
+                    </a>
+
+                    <a id="pLink" href="#" target="_blank" class="action-link call">
+                        <span>📞 اتصال</span>
+                    </a>
                 </div>
             </div>
         </div>
 
-        <h2 class="section-title">المعاهد والهيئات الوطنية التابعة للوزارة</h2>
+        <h2 class="section-title">المعاهد والهيئات الوطنية</h2>
         <div class="institutes-grid">
-            
-            <a href="https://www.google.com/search?q=INFPE+الحراش" target="_blank" class="inst-card">
-                <div style="font-size: 40px;">🏫</div>
-                <h3>المعهد الوطني لتكوين موظفي قطاع التربية (الحراش)</h3>
-            </a>
+            <div class="inst-card">
+                <h3>المعهد الوطني لتكوين الموظفين (الحراش)</h3>
+                <div class="action-grid" style="margin-top:15px;">
+                    <a href="https://www.google.com/maps/dir//INFPE+El+Harrach" target="_blank" class="action-link">الاتجاهات</a>
+                    <a href="https://www.google.com/search?q=numéro+INFPE+الحراش" target="_blank" class="action-link">اتصال</a>
+                </div>
+            </div>
 
-            <a href="https://www.google.com/search?q=INFPE+مساعد+الجلفة" target="_blank" class="inst-card">
-                <div style="font-size: 40px;">🏛️</div>
-                <h3>معهد تكوين موظفي التربية (مساعد - الجلفة)</h3>
-            </a>
-
-            <a href="https://www.google.com/search?q=ONEC+الجزائر" target="_blank" class="inst-card">
-                <div style="font-size: 40px;">📝</div>
-                <h3>الديوان الوطني للامتحانات والمسابقات (ONEC)</h3>
-            </a>
-
-            <a href="https://www.google.com/search?q=ONEFD+الجزائر" target="_blank" class="inst-card">
-                <div style="font-size: 40px;">📡</div>
-                <h3>الديوان الوطني للتعليم والتكوين عن بعد (ONEFD)</h3>
-            </a>
-
-            <a href="https://www.google.com/search?q=INRE+الجزائر" target="_blank" class="inst-card">
-                <div style="font-size: 40px;">🔬</div>
-                <h3>المعهد الوطني للبحث في التربية (INRE)</h3>
-            </a>
-
-            <a href="https://www.google.com/search?q=المعهد+الوطني+لتكوين+موظفي+قطاع+التربية+وهران" target="_blank" class="inst-card">
-                <div style="font-size: 40px;">🏫</div>
-                <h3>معهد تكوين موظفي التربية (وهران)</h3>
-            </a>
-
+            <div class="inst-card">
+                <h3>معهد تكوين الموظفين (مساعد - الجلفة)</h3>
+                <div class="action-grid" style="margin-top:15px;">
+                    <a href="https://www.google.com/maps/dir//INFPE+Messaad" target="_blank" class="action-link">الاتجاهات</a>
+                    <a href="https://www.google.com/search?q=numéro+INFPE+مسعد" target="_blank" class="action-link">اتصال</a>
+                </div>
+            </div>
         </div>
 
-        <div style="text-align: center; color: #94a3b8; font-size: 12px; margin-top: 50px;">
-            تطوير الأستاذ حميدي بشير | 2026 
-        </div>
+        <div style="text-align: center; color: #94a3b8; font-size: 12px; margin-top: 50px;">تطوير الأستاذ حميدي بشير | 2026</div>
     </div>
 
     <script>
         function searchNow() {
             const val = document.getElementById('target').value.trim();
             if(!val) return;
-            const res = document.getElementById('resultArea');
-            res.style.display = 'block';
+            document.getElementById('resultArea').style.display = 'block';
             document.getElementById('displayTitle').innerText = val;
             const q = encodeURIComponent(val);
+
+            // رابط الاتجاهات المباشر (Navigate)
+            document.getElementById('dirLink').href = `https://www.google.com/maps/dir//${q}`;
+            
             document.getElementById('pLink').href = `https://www.google.com/search?q=numéro+téléphone+${q}`;
             document.getElementById('mLink').href = `https://www.google.com/maps/search/${q}`;
             document.getElementById('phLink').href = `https://www.google.com/search?q=${q}&tbm=isch`;
-            document.getElementById('fLink').href = `https://www.google.com/search?q=site:facebook.com+${q}`;
-            res.scrollIntoView({ behavior: 'smooth' });
+            
+            document.getElementById('resultArea').scrollIntoView({ behavior: 'smooth' });
         }
     </script>
 </body>
