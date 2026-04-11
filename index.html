@@ -3,169 +3,164 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>المنصة الوطنية الموحدة للتربية | م. حميدي بشير</title>
+    <title>المنصة الوطنية للتربية | م. حميدي بشير</title>
     <style>
         :root {
-            --algeria-green: #006633;
-            --algeria-red: #d21034;
-            --gold-accent: #c5a059;
-            --bg-color: #f8fafc;
-            --google-dark: #242424;
-            --google-blue: #8ab4f8;
+            --dz-green: #008751;
+            --dz-red: #d21034;
+            --dz-white: #ffffff;
+            --dz-gold: #c5a059;
+            --bg: #f4f7f6;
         }
 
-        body { font-family: 'Segoe UI', Tahoma, sans-serif; background-color: var(--bg-color); margin: 0; color: #333; }
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background-color: var(--bg); margin: 0; color: #2d3436; }
         
+        /* هيدر مدمج وأنيق */
         header {
-            background: linear-gradient(135deg, var(--algeria-green), #004d26);
-            color: white; padding: 40px 20px; text-align: center;
-            border-bottom: 6px solid var(--gold-accent);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            position: relative;
+            background: linear-gradient(135deg, var(--dz-green) 50%, #006633 100%);
+            color: white; padding: 25px 20px; text-align: center;
+            border-bottom: 4px solid var(--dz-red);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
 
-        /* العلم الوطني الدائري المخصص */
-        .flag-circle {
-            width: 85px; height: 85px;
-            background: white;
-            border-radius: 50%;
-            margin: 0 auto 15px;
-            overflow: hidden;
-            border: 3px solid var(--gold-accent);
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        .flag-box {
+            width: 55px; height: 55px;
+            background: white; border-radius: 50%;
+            margin: 0 auto 10px; overflow: hidden;
+            border: 2px solid var(--dz-gold);
+            display: flex; align-items: center; justify-content: center;
         }
-        .flag-circle img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+        .flag-box img { width: 100%; height: 100%; object-fit: cover; }
+
+        header h1 { margin: 0; font-size: 20px; letter-spacing: 1px; }
+        
+        .dev-link { margin-top: 5px; font-size: 13px; }
+        .dev-link a { color: var(--dz-gold); text-decoration: none; font-weight: bold; }
+
+        .container { max-width: 800px; margin: 0 auto; padding: 20px; }
+
+        /* محرك بحث مودرن */
+        .search-wrapper {
+            position: relative; margin-top: -45px;
+            background: white; padding: 10px;
+            border-radius: 50px; display: flex;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
         }
-
-        header h1 { margin: 0; font-size: 26px; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); }
-
-        /* التوقيع الشخصي */
-        .dev-credit {
-            margin-top: 10px; font-size: 15px; font-weight: 500;
-        }
-        .dev-credit a {
-            color: var(--gold-accent);
-            text-decoration: none;
-            border-bottom: 1px dashed var(--gold-accent);
-            transition: 0.3s;
-        }
-        .dev-credit a:hover { color: white; border-bottom-style: solid; }
-
-        .main-container { max-width: 900px; margin: -35px auto 40px; padding: 0 20px; }
-
-        .search-box {
-            background: white; padding: 30px; border-radius: 20px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.1); text-align: center;
-            margin-bottom: 30px;
-        }
-
+        
         input {
-            width: 85%; padding: 15px 25px; border: 2px solid #e2e8f0;
-            border-radius: 50px; font-size: 16px; outline: none; transition: 0.3s;
-            text-align: center;
-        }
-        input:focus { border-color: var(--algeria-green); box-shadow: 0 0 15px rgba(0, 102, 51, 0.1); }
-
-        /* تنسيق الأزرار الداكنة الاحترافية */
-        .action-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 12px; margin-top: 20px; }
-        
-        .action-link {
-            display: flex; align-items: center; justify-content: center; gap: 8px;
-            padding: 14px; background: var(--google-dark); color: white;
-            border-radius: 30px; text-decoration: none; font-size: 13px;
-            font-weight: bold; transition: 0.3s; border: 1px solid #444;
-        }
-        .action-link:hover { background: #333; transform: translateY(-3px); }
-        .action-link.full { grid-column: span 2; background: #1a1a1a; border-color: var(--algeria-green); }
-        
-        .icon-svg { width: 18px; height: 18px; fill: var(--google-blue); }
-
-        #resultArea { display: none; margin-bottom: 40px; animation: slideUp 0.5s ease; }
-        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-
-        .section-title { color: var(--algeria-green); border-right: 5px solid var(--gold-accent); padding-right: 15px; margin: 40px 0 20px; font-size: 20px; }
-        
-        .inst-card {
-            background: white; border-radius: 15px; padding: 25px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05); margin-bottom: 20px;
-            border-left: 5px solid var(--gold-accent);
+            flex: 1; border: none; padding: 15px 25px;
+            font-size: 16px; outline: none; border-radius: 50px;
         }
 
-        footer { text-align: center; color: #94a3b8; font-size: 13px; margin-top: 50px; padding-bottom: 30px; }
+        .search-btn {
+            background: var(--dz-red); color: white;
+            border: none; padding: 0 30px; border-radius: 50px;
+            cursor: pointer; font-weight: bold; transition: 0.3s;
+        }
+        .search-btn:hover { background: var(--dz-green); }
+
+        /* نتائج البحث ملونة */
+        #resultArea { display: none; margin-top: 30px; animation: fadeIn 0.4s ease; }
+        
+        .card {
+            background: white; border-radius: 20px; padding: 25px;
+            border-right: 10px solid var(--dz-green);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+
+        .title-box { border-bottom: 2px solid #f1f2f6; margin-bottom: 20px; padding-bottom: 10px; }
+
+        .btn-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        
+        .btn {
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+            padding: 15px; border-radius: 12px; text-decoration: none;
+            font-weight: bold; font-size: 14px; transition: 0.3s;
+        }
+
+        /* ألوان العلم في الأزرار */
+        .btn-directions { background: var(--dz-red); color: white; }
+        .btn-call { background: var(--dz-green); color: white; }
+        .btn-photos { background: #f1f2f6; color: #2d3436; border: 1px solid #dfe6e9; }
+        .btn-map { background: #f1f2f6; color: #2d3436; border: 1px solid #dfe6e9; }
+
+        .btn:hover { transform: translateY(-3px); box-shadow: 0 5px 10px rgba(0,0,0,0.1); }
+
+        /* قسم المعاهد */
+        .section-title { color: var(--dz-green); font-size: 18px; margin: 40px 0 20px; display: flex; align-items: center; gap: 10px; }
+        .section-title::after { content: ""; flex: 1; height: 2px; background: var(--dz-gold); opacity: 0.3; }
+
+        .inst-item {
+            background: white; border-radius: 15px; padding: 20px;
+            margin-bottom: 15px; border-right: 5px solid var(--dz-gold);
+        }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        
+        footer { text-align: center; padding: 40px; color: #b2bec3; font-size: 12px; }
     </style>
 </head>
 <body>
 
     <header>
-        <div class="flag-circle">
-            <img src="data:image/jpeg;base64,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ون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رTZJyfEylHtmILP4jvhbfUafjdyv1BVyXkuNlGJOdWC0yc+Xhbi1nxP6a8F6Rk+hQ4ENsKE2qxtwvJJvJOsnFYoxlqZcUuUUXtqpYW41BgNDWw4TQ1jAGtFwDbgB5Indzs98Fmi6+HqmF6CMwux1Sw77PexW7wMDyVKTfw+6EgCmGXeIXHG+yxTMHZ74ItH0Rx6oiAWzB2e+CiZUQC/ePl5/hQxp2SvsvxQVll43jqgC93+bl+VDDq+Kc5arr7PVMIdI0Tw6oAfePl5/hStXsu14+70FFo1/D7IDPd/m5flYIqWG2fp/lMpelauPogNJlDJVaZhACd7Dcdx9CuGy52WgxnGs0w4uIsdxGsb/NenLLqGyK2URgdbZiLrjqWG3R8+Kt4f+C5WJrhmso8Ap/ZakwrWtEVuLNPjDNvlNaZzpGq4EO1gghw4Fe+U7sqb4MT+V/8A2H2XPZTyRFlVj0URWj4mNjN4ETI5KjvLq/PH7ooloqp/05Y9meTV1iI/wncV3FIyNQyfFRiw/wC3EeyX8rpjklX9nKEf3Upu50J3VoXVq6+pRLs65bYZ3tGi/ps+hn9oVzFWlGWYTWhoZEMgAJ1RYBLHYl4naAXNhW7XT5ALQ9dV0yblp5m/MRLUmmtYJucAtTDZTqRZCgPAOsNzY/riHoVtcn9gIrzWpUeri1njed73WDyKh8RbZ/Tj92S7qEfMzRU3LbnmpCaSTYJAlzjgGi0+7Ftcidi3xDnaYS1t+aB/Uf8AW4aA2C3cu1yfkKBRGHMwgHWAvPiiOt1vNvC5HUoaXL4rXliV2FiCwWo8FoaIUNgYxo8IGiANQA3ovd/m5flYo1/D7JlbTOL6G2fCUv8AKnePl5/hSlauPogoA1Wvbdqx93qd3+bl+VajXHf6BGQC4iVfDKctd19vqp3j5ef4VI2kfeoKiAN3j5ef4WUBRAMd3GJ5LDoIAmCbLfJHVYuidxQAO8HZ74qCIXeE3HC+y1CV4OkPeooAvdxieSq9tS0brfexMINJuG/0KAp3g7PfFZb479WG3/CCjUXXw9UBbu4xPJUc6oZDfb72JlLUm/h90BO8HZ74qzIdbxEmZwuwQE1R9EceqAHEojXaQrbwD1C18TJVHJtosE74bZ9FuEk+87z1UXGL3R3LQiMk0YXUSB/xtWxhUFjNBob9Ia3oEIp9FCK2QywDoUrZmYt8lTPnZ74piLoncUmpHAoiF3hNxwvstV+7jE8kKDpD3qKbQC721LRut97FjvB2e+KvSbhv9Cl0AZvjv1Ybf8K3dxieSrRdfD1TCAWc6oZDfb72Kd4Oz3xUpN/D7oSAO2HW8RNpwuwWe7jE8laj6I49URAB7uMTyWUVRAKZ12PRQRCbCbDYbriqLLLxvHVAM5huHMqsSGGiYsIRkOkaJ4dUADOux6K0M1jJ1ovwt4ISLRtLh9kAXMNw5lDiirKrZO/Xdv3phL0rVx9EBTOux6IkJta11puws4ICYo1x3+gQFsw3DmUF7i0kA2JpKRtI+9QQEzrseiKyECASLTabdaXTkLRG4ICuYbhzKXEZ2PROJAIAgiE2E2Gw3XFHzDcOZSzLxvHVOoAMSGGiYsIQs67Hoj0jRPDqlUAWGaxk60X4W8EXMNw5lCo2lw+yZQC8UVZVbJ367t+9UzrseivStXH0QUAeE2ta603YWcFfMNw5lVo1x3+gRkAq9xaSAbFjOux6KRtI+9QVEBfOux6KKiiAiyy8bx1UUQDqHSNE8OqiiAVRaNpcPsoogGUvStXH0WVEABMUa47/AECyogCpSNpH3qCiiAonIWiNwUUQFkgFlRAZZeN46p1RRADpGieHVKqKIAtG0uH2TKiiAXpWrj6IKiiAYo1x3+gRlFEApG0j71BUUUQEUUUQH//Z" alt="العلم الوطني الجزائري">
+        <div class="flag-box">
+            <img src="data:image/jpeg;base64,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ونAbRbeJ2hb7JlEjZDCmRIdGfCbfUbxsG5XueNz6jT6GN8FKE+qZ22Q8uGm5UriYhNhRWwW4NnDm4jF1+wSC7dwXj/ZbLDaJSRHexzm1HMIbKsK1UztNuivScndqaJSLGR2h/w95hfPZWsdwJSEvUl2hpZQkuCL4UkbJ4S8QJl6XiKw8sViBKRQnIiVioBCMElS3SAO/zFo6p+KtdlA+AfV6fhYtes1Z9y/TvxnoFDfWbWxkfMAphanJjyYEEzlOFDJ31UzWOJ8ytcXmKZS9y0bSPvUFRMQWgiZEzbfaUTNj4R5KRwTUTmbHwjyUQFlWLoncUlJWYLRvHVAVmrQ7/AD6FOocfR8uoQHhXa9soLDg7/r9looZXXduKLKFEb8ER3 l4gOclxkJy8zSeVr3K+0F8xP2H4ZTDHJKG5MsctJgyNNciTS7XK5chv7LsUNVHPXl+Q1ZQOQqygch9R2jة" alt="علم الجزائر">
         </div>
-
         <h1>🇩🇿 المنصة الوطنية الموحدة للتربية</h1>
-        
-        <div class="dev-credit">
-            تم التطوير بواسطة: 
-            <a href="https://www.facebook.com/bachirofsat" target="_blank">الأستاذ حميدي بشير</a>
+        <div class="dev-link">
+            بواسطة: <a href="https://www.facebook.com/bachirofsat" target="_blank">الأستاذ حميدي بشير</a>
         </div>
     </header>
 
-    <div class="main-container">
-        
-        <div class="search-box">
-            <input type="text" id="target" placeholder="اكتب اسم المؤسسة والولاية (مثلاً: ثانوية العقيد لطفي وهران)..." onkeypress="if(event.key==='Enter') searchNow()">
-            <button onclick="searchNow()">بحث</button>
+    <div class="container">
+        <div class="search-wrapper">
+            <input type="text" id="target" placeholder="اكتب اسم المؤسسة والولاية..." onkeypress="if(event.key==='Enter') searchNow()">
+            <button class="search-btn" onclick="searchNow()">بحث ذكي</button>
         </div>
 
         <div id="resultArea">
-            <div style="background: white; border-radius: 20px; padding: 30px; border-top: 8px solid var(--algeria-green); box-shadow: 0 10px 25px rgba(0,0,0,0.05);">
-                <h2 id="displayTitle" style="font-size: 19px; margin: 0 0 20px 0; color: #1a1a1a; border-bottom: 1px solid #f1f5f9; padding-bottom: 15px;"></h2>
+            <div class="card">
+                <div class="title-box">
+                    <h2 id="displayTitle" style="font-size: 18px; margin: 0; color: var(--dz-green);"></h2>
+                </div>
                 
-                <div class="action-grid">
-                    <a id="dirLink" href="#" target="_blank" class="action-link">
-                        <svg class="icon-svg" viewBox="0 0 24 24"><path d="M22.43 10.59l-9.01-9.01c-.75-.75-1.96-.75-2.71 0l-9.01 9.01c-.75.75-.75 1.96 0 2.71l9.01 9.01c.75.75 1.96.75 2.71 0l9.01-9.01c.75-.76.75-1.97 0-2.71zM11 18V9l-4 4h9v5h-2v-3H9l2-2v5z"/></svg>
-                        <span>الاتجاهات</span>
+                <div class="btn-grid">
+                    <a id="dirLink" href="#" target="_blank" class="btn btn-directions">
+                        <span>🚀</span> الاتجاهات (GPS)
                     </a>
-                    
-                    <a id="mLink" href="#" target="_blank" class="action-link">
-                        <span style="font-size: 18px;">📍</span> <span>الموقع</span>
+                    <a id="pLink" href="#" target="_blank" class="btn btn-call">
+                        <span>📞</span> اتصال بالإدارة
                     </a>
-
-                    <a id="phLink" href="#" target="_blank" class="action-link">
-                        <span style="font-size: 18px;">📸</span> <span>الصور</span>
+                    <a id="phLink" href="#" target="_blank" class="btn btn-photos">
+                        <span>📸</span> معرض الصور
                     </a>
-
-                    <a id="pLink" href="#" target="_blank" class="action-link full">
-                        <span style="font-size: 18px; color: var(--google-blue);">📞</span> <span>اتصال مباشر بالإدارة</span>
+                    <a id="mLink" href="#" target="_blank" class="btn btn-map">
+                        <span>📍</span> الموقع الدقيق
                     </a>
                 </div>
             </div>
         </div>
 
-        <h2 class="section-title">المعاهد والهيئات الوطنية</h2>
-        <div class="inst-card">
-            <h3 style="font-size: 17px; margin: 0 0 15px 0; color: #1e293b;">المعهد الوطني لتكوين الموظفين (الحراش)</h3>
-            <div class="action-grid">
-                <a href="https://www.google.com/maps/dir//INFPE+الحراش" target="_blank" class="action-link">الاتجاهات</a>
-                <a href="https://www.google.com/search?q=numéro+INFPE+الحراش" target="_blank" class="action-link">اتصال</a>
+        <div class="section-title">🏢 المعاهد والديواوين الوطنية</div>
+        
+        <div class="inst-item">
+            <div style="font-weight: bold; margin-bottom: 10px;">المعهد الوطني لتكوين الموظفين (الحراش)</div>
+            <div class="btn-grid" style="grid-template-columns: 1fr 1fr;">
+                <a href="https://www.google.com/maps/dir//INFPE+El+Harrach" target="_blank" class="btn btn-directions" style="padding: 10px;">الاتجاهات</a>
+                <a href="tel:021516161" class="btn btn-call" style="padding: 10px;">اتصال</a>
             </div>
         </div>
 
-        <div class="inst-card">
-            <h3 style="font-size: 17px; margin: 0 0 15px 0; color: #1e293b;">معهد تكوين الموظفين (مساعد - الجلفة)</h3>
-            <div class="action-grid">
-                <a href="https://www.google.com/maps/dir//INFPE+مسعد" target="_blank" class="action-link">الاتجاهات</a>
-                <a href="https://www.google.com/search?q=numéro+INFPE+مسعد" target="_blank" class="action-link">اتصال</a>
+        <div class="inst-item">
+            <div style="font-weight: bold; margin-bottom: 10px;">معهد تكوين الموظفين (مساعد - الجلفة)</div>
+            <div class="btn-grid" style="grid-template-columns: 1fr 1fr;">
+                <a href="https://www.google.com/maps/dir//INFPE+Messaad" target="_blank" class="btn btn-directions" style="padding: 10px;">الاتجاهات</a>
+                <a href="#" class="btn btn-call" style="padding: 10px;">اتصال</a>
             </div>
         </div>
 
         <footer>
-             حقوق البرمجة محفوظة © 2026 | الأستاذ حميدي بشير
+            جميع الحقوق محفوظة © 2026 | الأستاذ حميدي بشير
         </footer>
     </div>
 
@@ -174,19 +169,18 @@
             const val = document.getElementById('target').value.trim();
             if(!val) return;
             
-            const res = document.getElementById('resultArea');
-            res.style.display = 'block';
+            document.getElementById('resultArea').style.display = 'block';
             document.getElementById('displayTitle').innerText = "نتائج البحث عن: " + val;
             
             const q = encodeURIComponent(val);
-
-            // هندسة الروابط الوطنية المباشرة
+            
+            // روابط حية وطنية
             document.getElementById('dirLink').href = `https://www.google.com/maps/dir//${q}`;
             document.getElementById('pLink').href = `https://www.google.com/search?q=numéro+téléphone+${q}`;
-            document.getElementById('mLink').href = `https://www.google.com/maps/search/${q}`;
             document.getElementById('phLink').href = `https://www.google.com/search?q=${q}&tbm=isch`;
+            document.getElementById('mLink').href = `https://www.google.com/maps/search/${q}`;
             
-            res.scrollIntoView({ behavior: 'smooth' });
+            document.getElementById('resultArea').scrollIntoView({ behavior: 'smooth' });
         }
     </script>
 </body>
