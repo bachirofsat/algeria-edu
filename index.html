@@ -3,99 +3,97 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>المنصة الوطنية للتربية | م. حميدي بشير</title>
+    <title>دليل المؤسسات التربوية بالجزائر | الأستاذ حميدي بشير</title>
     <style>
         :root {
             --dz-green: #008751;
             --dz-red: #d21034;
             --dz-white: #ffffff;
             --dz-gold: #c5a059;
-            --bg: #f4f7f6;
+            --bg-light: #f4f7f6;
+            --text-dark: #1a1a1a;
+            --google-blue: #4285F4;
         }
 
-        body { font-family: 'Segoe UI', Tahoma, sans-serif; background-color: var(--bg); margin: 0; color: #2d3436; }
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background-color: var(--bg-light); margin: 0; color: var(--text-dark); }
         
-        /* هيدر مدمج وأنيق */
         header {
-            background: linear-gradient(135deg, var(--dz-green) 50%, #006633 100%);
-            color: white; padding: 25px 20px; text-align: center;
-            border-bottom: 4px solid var(--dz-red);
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            background: linear-gradient(135deg, var(--dz-green), #006633);
+            color: white; padding: 30px 20px 70px; text-align: center;
+            border-bottom: 5px solid var(--dz-gold);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            position: relative;
         }
 
-        .flag-box {
-            width: 55px; height: 55px;
-            background: white; border-radius: 50%;
-            margin: 0 auto 10px; overflow: hidden;
-            border: 2px solid var(--dz-gold);
+        .logo-box {
+            width: 70px; height: 70px; background: white; border-radius: 50%;
+            margin: 0 auto 10px; overflow: hidden; border: 3px solid var(--dz-white);
             display: flex; align-items: center; justify-content: center;
         }
-        .flag-box img { width: 100%; height: 100%; object-fit: cover; }
+        .logo-box img { width: 85%; height: 85%; object-fit: contain; }
 
-        header h1 { margin: 0; font-size: 20px; letter-spacing: 1px; }
-        
-        .dev-link { margin-top: 5px; font-size: 13px; }
-        .dev-link a { color: var(--dz-gold); text-decoration: none; font-weight: bold; }
+        header h1 { margin: 0; font-size: 24px; font-weight: 800; }
+        .dev-credit { margin-top: 8px; font-size: 14px; opacity: 0.9; }
+        .dev-credit a { color: var(--dz-gold); text-decoration: none; font-weight: bold; }
 
-        .container { max-width: 800px; margin: 0 auto; padding: 20px; }
+        .container { max-width: 900px; margin: 0 auto; padding: 0 20px; }
 
-        /* محرك بحث مودرن */
         .search-wrapper {
-            position: relative; margin-top: -45px;
-            background: white; padding: 10px;
-            border-radius: 50px; display: flex;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            background: white; padding: 10px; border-radius: 50px; display: flex; gap: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1); margin-top: -40px; position: relative; z-index: 10;
         }
         
-        input {
-            flex: 1; border: none; padding: 15px 25px;
-            font-size: 16px; outline: none; border-radius: 50px;
-        }
+        input { flex: 1; border: none; padding: 15px; font-size: 16px; outline: none; border-radius: 50px; text-align: center; }
 
         .search-btn {
-            background: var(--dz-red); color: white;
-            border: none; padding: 0 30px; border-radius: 50px;
-            cursor: pointer; font-weight: bold; transition: 0.3s;
-        }
-        .search-btn:hover { background: var(--dz-green); }
-
-        /* نتائج البحث ملونة */
-        #resultArea { display: none; margin-top: 30px; animation: fadeIn 0.4s ease; }
-        
-        .card {
-            background: white; border-radius: 20px; padding: 25px;
-            border-right: 10px solid var(--dz-green);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            background: var(--dz-green); color: white; border: none;
+            padding: 0 30px; border-radius: 50px; cursor: pointer; font-weight: bold;
         }
 
-        .title-box { border-bottom: 2px solid #f1f2f6; margin-bottom: 20px; padding-bottom: 10px; }
-
-        .btn-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-        
-        .btn {
-            display: flex; align-items: center; justify-content: center; gap: 10px;
-            padding: 15px; border-radius: 12px; text-decoration: none;
-            font-weight: bold; font-size: 14px; transition: 0.3s;
+        /* نتائج البحث - أيقونات حمراء بطلبك */
+        #resultArea { display: none; margin-top: 30px; animation: slideUp 0.5s ease; }
+        .result-card {
+            background: white; border-radius: 20px; padding: 30px;
+            border-top: 8px solid var(--dz-green); box-shadow: 0 10px 30px rgba(0,0,0,0.05);
         }
 
-        /* ألوان العلم في الأزرار */
-        .btn-directions { background: var(--dz-red); color: white; }
-        .btn-call { background: var(--dz-green); color: white; }
-        .btn-photos { background: #f1f2f6; color: #2d3436; border: 1px solid #dfe6e9; }
-        .btn-map { background: #f1f2f6; color: #2d3436; border: 1px solid #dfe6e9; }
+        .action-btns { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 15px; margin-top: 25px; }
+        .action-btn {
+            display: flex; flex-direction: column; align-items: center; gap: 8px;
+            padding: 15px; background: #fff; border: 2px solid #f1f2f6;
+            border-radius: 15px; text-decoration: none; color: var(--text-dark);
+            font-size: 13px; font-weight: bold; transition: 0.3s;
+        }
+        .action-btn:hover { border-color: var(--dz-red); transform: translateY(-3px); }
+        .action-btn svg { fill: var(--dz-red); width: 30px; height: 30px; } /* أيقونات حمراء */
 
-        .btn:hover { transform: translateY(-3px); box-shadow: 0 5px 10px rgba(0,0,0,0.1); }
+        /* قسم المعاهد الوطنية */
+        .section-header { margin: 50px 0 20px; border-right: 5px solid var(--dz-gold); padding-right: 15px; }
+        .section-header h2 { font-size: 20px; margin: 0; color: var(--dz-green); font-weight: 800; }
 
-        /* قسم المعاهد */
-        .section-title { color: var(--dz-green); font-size: 18px; margin: 40px 0 20px; display: flex; align-items: center; gap: 10px; }
-        .section-title::after { content: ""; flex: 1; height: 2px; background: var(--dz-gold); opacity: 0.3; }
+        .national-grid { display: grid; grid-template-columns: 1fr; gap: 15px; }
 
         .inst-item {
             background: white; border-radius: 15px; padding: 20px;
-            margin-bottom: 15px; border-right: 5px solid var(--dz-gold);
+            display: flex; align-items: center; justify-content: space-between;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05); border: 1px solid #eee;
+        }
+        .inst-item h3 { font-size: 16px; margin: 0; font-weight: 700; color: var(--text-dark); }
+        
+        .inst-btns { display: flex; gap: 10px; }
+        .small-btn { padding: 8px 15px; border-radius: 20px; text-decoration: none; font-size: 12px; font-weight: bold; display: flex; align-items: center; gap: 5px; }
+        .btn-red { background: var(--dz-red); color: white; }
+        .btn-outline { border: 1.5px solid var(--dz-red); color: var(--dz-red); }
+
+        /* الزر الوطني الكبير */
+        .global-btn {
+            background: linear-gradient(to right, #4285F4, #34A853);
+            color: white; padding: 20px; border-radius: 15px; text-align: center;
+            text-decoration: none; font-weight: bold; display: block; margin-top: 20px;
+            box-shadow: 0 4px 15px rgba(66, 133, 244, 0.3);
         }
 
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         
         footer { text-align: center; padding: 40px; color: #b2bec3; font-size: 12px; }
     </style>
@@ -103,64 +101,74 @@
 <body>
 
     <header>
-        <div class="flag-box">
-            <img src="data:image/jpeg;base64,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ونAbRbeJ2hb7JlEjZDCmRIdGfCbfUbxsG5XueNz6jT6GN8FKE+qZ22Q8uGm5UriYhNhRWwW4NnDm4jF1+wSC7dwXj/ZbLDaJSRHexzm1HMIbKsK1UztNuivScndqaJSLGR2h/w95hfPZWsdwJSEvUl2hpZQkuCL4UkbJ4S8QJl6XiKw8sViBKRQnIiVioBCMElS3SAO/zFo6p+KtdlA+AfV6fhYtes1Z9y/TvxnoFDfWbWxkfMAphanJjyYEEzlOFDJ31UzWOJ8ytcXmKZS9y0bSPvUFRMQWgiZEzbfaUTNj4R5KRwTUTmbHwjyUQFlWLoncUlJWYLRvHVAVmrQ7/AD6FOocfR8uoQHhXa9soLDg7/r9looZXXduKLKFEb8ER3 l4gOclxkJy8zSeVr3K+0F8xP2H4ZTDHJKG5MsctJgyNNciTS7XK5chv7LsUNVHPXl+Q1ZQOQqygch9R2jة" alt="علم الجزائر">
+        <div class="logo-box">
+            <img src="https://e.top4top.io/p_3753yucuk1.jpg" alt="شعار وزارة التربية">
         </div>
-        <h1>🇩🇿 المنصة الوطنية الموحدة للتربية</h1>
-        <div class="dev-link">
-            بواسطة: <a href="https://www.facebook.com/bachirofsat" target="_blank">الأستاذ حميدي بشير</a>
+        <h1>دليل المؤسسات التربوية بالجزائر</h1>
+        <div class="dev-credit">
+            تطوير: <a href="https://www.facebook.com/bachirofsat" target="_blank">الأستاذ حميدي بشير</a>
         </div>
     </header>
 
     <div class="container">
+        
         <div class="search-wrapper">
             <input type="text" id="target" placeholder="اكتب اسم المؤسسة والولاية..." onkeypress="if(event.key==='Enter') searchNow()">
-            <button class="search-btn" onclick="searchNow()">بحث ذكي</button>
+            <button class="search-btn" onclick="searchNow()">بحث</button>
         </div>
 
         <div id="resultArea">
-            <div class="card">
-                <div class="title-box">
-                    <h2 id="displayTitle" style="font-size: 18px; margin: 0; color: var(--dz-green);"></h2>
-                </div>
-                
-                <div class="btn-grid">
-                    <a id="dirLink" href="#" target="_blank" class="btn btn-directions">
-                        <span>🚀</span> الاتجاهات (GPS)
+            <div class="result-card">
+                <h2 id="resTitle" style="font-size: 18px; margin: 0 0 20px 0; color: var(--dz-green);"></h2>
+                <div class="action-btns">
+                    <a id="dirL" href="#" target="_blank" class="action-btn">
+                        <svg viewBox="0 0 24 24"><path d="M22.43 10.59l-9.01-9.01c-.75-.75-1.96-.75-2.71 0l-9.01 9.01c-.75.75-.75 1.96 0 2.71l9.01 9.01c.75.75 1.96.75 2.71 0l9.01-9.01c.75-.76.75-1.97 0-2.71zM11 18V9l-4 4h9v5h-2v-3H9l2-2v5z"/></svg>
+                        <span>الاتجاهات</span>
                     </a>
-                    <a id="pLink" href="#" target="_blank" class="btn btn-call">
-                        <span>📞</span> اتصال بالإدارة
+                    <a id="pL" href="#" target="_blank" class="action-btn">
+                        <svg viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
+                        <span>اتصال مباشر</span>
                     </a>
-                    <a id="phLink" href="#" target="_blank" class="btn btn-photos">
-                        <span>📸</span> معرض الصور
+                    <a id="phL" href="#" target="_blank" class="action-btn">
+                        <svg viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
+                        <span>الصور</span>
                     </a>
-                    <a id="mLink" href="#" target="_blank" class="btn btn-map">
-                        <span>📍</span> الموقع الدقيق
+                    <a id="mL" href="#" target="_blank" class="action-btn">
+                        <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+                        <span>الموقع</span>
                     </a>
                 </div>
             </div>
         </div>
 
-        <div class="section-title">🏢 المعاهد والديواوين الوطنية</div>
-        
-        <div class="inst-item">
-            <div style="font-weight: bold; margin-bottom: 10px;">المعهد الوطني لتكوين الموظفين (الحراش)</div>
-            <div class="btn-grid" style="grid-template-columns: 1fr 1fr;">
-                <a href="https://www.google.com/maps/dir//INFPE+El+Harrach" target="_blank" class="btn btn-directions" style="padding: 10px;">الاتجاهات</a>
-                <a href="tel:021516161" class="btn btn-call" style="padding: 10px;">اتصال</a>
-            </div>
+        <div class="section-header">
+            <h2>🏢 الهيئات والمعاهد الوطنية</h2>
         </div>
 
-        <div class="inst-item">
-            <div style="font-weight: bold; margin-bottom: 10px;">معهد تكوين الموظفين (مساعد - الجلفة)</div>
-            <div class="btn-grid" style="grid-template-columns: 1fr 1fr;">
-                <a href="https://www.google.com/maps/dir//INFPE+Messaad" target="_blank" class="btn btn-directions" style="padding: 10px;">الاتجاهات</a>
-                <a href="#" class="btn btn-call" style="padding: 10px;">اتصال</a>
+        <div class="national-grid">
+            <div class="inst-item">
+                <h3>المعهد الوطني لتكوين الموظفين (الحراش)</h3>
+                <div class="inst-btns">
+                    <a href="https://www.google.com/maps/search/INFPE+الحراش" target="_blank" class="small-btn btn-red">الاتجاهات</a>
+                    <a href="tel:021516161" class="small-btn btn-outline">اتصال</a>
+                </div>
             </div>
+
+            <div class="inst-item">
+                <h3>الديوان الوطني للامتحانات والمسابقات (ONEC)</h3>
+                <div class="inst-btns">
+                    <a href="https://www.google.com/maps/search/ONEC+الجزائر" target="_blank" class="small-btn btn-red">الاتجاهات</a>
+                    <a href="https://www.google.com/search?q=onec+contact" target="_blank" class="small-btn btn-outline">معلومات</a>
+                </div>
+            </div>
+
+            <a href="https://www.google.com/search?q=معاهد+تكوين+موظفي+التربية+في+الجزائر" target="_blank" class="global-btn">
+                🔍 تصفح الدليل الوطني الشامل لمعاهد تكوين موظفي التربية عبر القطر الوطني
+            </a>
         </div>
 
         <footer>
-            جميع الحقوق محفوظة © 2026 | الأستاذ حميدي بشير
+            جميع الحقوق محفوظة © 2026 | تطوير الأستاذ حميدي بشير
         </footer>
     </div>
 
@@ -168,17 +176,15 @@
         function searchNow() {
             const val = document.getElementById('target').value.trim();
             if(!val) return;
-            
             document.getElementById('resultArea').style.display = 'block';
-            document.getElementById('displayTitle').innerText = "نتائج البحث عن: " + val;
-            
-            const q = encodeURIComponent(val);
-            
-            // روابط حية وطنية
-            document.getElementById('dirLink').href = `https://www.google.com/maps/dir//${q}`;
-            document.getElementById('pLink').href = `https://www.google.com/search?q=numéro+téléphone+${q}`;
-            document.getElementById('phLink').href = `https://www.google.com/search?q=${q}&tbm=isch`;
-            document.getElementById('mLink').href = `https://www.google.com/maps/search/${q}`;
+            document.getElementById('resTitle').innerText = "نتائج البحث عن: " + val;
+            const q = encodeURIComponent(val + " التربية الجزائر");
+
+            // الروابط الوطنية
+            document.getElementById('dirL').href = `https://www.google.com/maps/search/${q}`;
+            document.getElementById('pL').href = `https://www.google.com/search?q=numéro+téléphone+${q}`;
+            document.getElementById('phL').href = `https://www.google.com/search?q=${q}&tbm=isch`;
+            document.getElementById('mL').href = `https://www.google.com/maps/search/${q}`;
             
             document.getElementById('resultArea').scrollIntoView({ behavior: 'smooth' });
         }
