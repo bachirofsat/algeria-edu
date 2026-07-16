@@ -3,197 +3,575 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>دليل المؤسسات التربوية بالجزائر</title>
+    <title>حاسبة التمثيل النقابي المطور - 71 ولاية</title>
     <style>
         :root {
-            --dz-green: #008751;
-            --dz-red: #d21034;
-            --dz-white: #ffffff;
-            --dz-gold: #c5a059;
-            --text-black: #1a1a1a;
-            --bg-body: #f1f3f5;
+            --primary: #2c3e50;
+            --secondary: #27ae60;
+            --warning: #f39c12;
+            --light: #f8f9fa;
+            --danger: #e74c3c;
+            --border: #dee2e6;
         }
-
-        body { font-family: 'Segoe UI', Tahoma, sans-serif; background-color: var(--bg-body); margin: 0; color: var(--text-black); }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f1f3f5;
+            margin: 0;
+            padding: 20px;
+            color: #212529;
+        }
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.08);
+        }
+        h1, h2 {
+            text-align: center;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+        .header-desc {
+            text-align: center;
+            color: #6c757d;
+            margin-bottom: 30px;
+            font-size: 16px;
+        }
+        .section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: var(--light);
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        label {
+            font-weight: bold;
+            color: var(--primary);
+        }
+        input[type="number"], input[type="text"] {
+            padding: 12px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 16px;
+            outline: none;
+            transition: 0.2s;
+        }
+        input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(44, 62, 80, 0.1);
+        }
+        .table-container {
+            max-height: 400px;
+            overflow-y: auto;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            margin-top: 15px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #fff;
+        }
+        th, td {
+            border: 1px solid var(--border);
+            padding: 10px 12px;
+            text-align: center;
+            font-size: 14px;
+        }
+        th {
+            background-color: var(--primary);
+            color: white;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: bold;
+            color: white;
+            transition: background 0.2s;
+        }
+        .btn-success { background-color: var(--secondary); }
+        .btn-success:hover { background-color: #219653; }
+        .btn-danger { background-color: var(--danger); }
+        .btn-danger:hover { background-color: #c0392b; }
+        .btn-info { background-color: #2980b9; }
+        .btn-info:hover { background-color: #1f618d; }
         
-        header {
-            background: linear-gradient(135deg, var(--dz-green), #006633);
-            color: white; padding: 25px 20px 70px; text-align: center;
-            border-bottom: 5px solid var(--dz-gold);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            position: relative;
-        }
-
-        .logo-box {
-            width: 70px; height: 70px; background: white; border-radius: 50%;
-            margin: 0 auto 10px; overflow: hidden; border: 3px solid white;
-            display: flex; align-items: center; justify-content: center;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-        }
-        .logo-box img { width: 85%; height: 85%; object-fit: contain; }
-
-        header h1 { margin: 0; font-size: 22px; font-weight: 800; }
-
-        .container { max-width: 900px; margin: 0 auto; padding: 0 20px; }
-
-        /* شريط البحث المطور */
-        .search-container {
-            background: white; padding: 10px; border-radius: 50px; display: flex; gap: 10px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1); margin-top: -45px; position: relative; z-index: 10;
+        .action-row {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            justify-content: space-between;
         }
         
-        input { flex: 1; border: none; padding: 15px 25px; font-size: 16px; outline: none; border-radius: 50px; text-align: center; color: var(--text-black); }
-
-        .search-btn {
-            background: var(--dz-green); color: white; border: none;
-            padding: 0 35px; border-radius: 50px; cursor: pointer; font-weight: bold; transition: 0.3s;
+        .alert-box {
+            background-color: #fce8e6;
+            border-right: 5px solid var(--danger);
+            color: #a94442;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            display: none;
+            font-weight: 500;
         }
-        .search-btn:hover { background: var(--dz-red); }
-
-        /* نتائج البحث - أيقونات حمراء بطلبك */
-        #resultArea { display: none; margin-top: 30px; animation: slideUp 0.5s ease; }
-        .result-card {
-            background: white; border-radius: 20px; padding: 30px;
-            border-top: 8px solid var(--dz-green); box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-        }
-
-        .action-btns { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 12px; margin-top: 25px; }
-        .action-btn {
-            display: flex; flex-direction: column; align-items: center; gap: 8px;
-            padding: 15px; background: #fff; border: 1.5px solid #eee;
-            border-radius: 15px; text-decoration: none; color: var(--text-black);
-            font-size: 13px; font-weight: bold; transition: 0.3s;
-        }
-        .action-btn:hover { border-color: var(--dz-red); transform: translateY(-3px); }
-        .action-btn svg { fill: var(--dz-red); width: 28px; height: 28px; }
-
-        /* قائمة المعاهد الوطنية */
-        .section-title { margin: 50px 0 20px; border-right: 5px solid var(--dz-gold); padding-right: 15px; color: var(--dz-green); font-size: 19px; font-weight: 800; }
-
-        .inst-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px; margin-bottom: 50px; }
-
-        .inst-card {
-            background: white; border-radius: 15px; padding: 18px;
-            display: flex; align-items: center; justify-content: space-between;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.04); border: 1px solid #f1f2f6;
-            transition: 0.3s; text-decoration: none; color: inherit;
-        }
-        .inst-card:hover { transform: translateY(-3px); border-color: var(--dz-green); box-shadow: 0 8px 20px rgba(0,0,0,0.08); }
-
-        .inst-card h3 { font-size: 14px; margin: 0; font-weight: 700; color: var(--text-black); flex: 1; }
         
-        .inst-icon {
-            width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;
-            background: #fdf2f2; border-radius: 10px; margin-left: 15px;
+        .results-box {
+            display: none;
+            margin-top: 30px;
         }
-        .inst-icon svg { fill: var(--dz-red); width: 24px; height: 24px; }
-
-        .dir-badge { padding: 6px 12px; background: var(--dz-red); color: white; border-radius: 20px; font-size: 11px; font-weight: bold; }
-
-        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .summary-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .card {
+            background: #fff;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+        }
+        .card h4 { margin: 0 0 10px 0; color: #7f8c8d; font-size: 14px; }
+        .card span { font-size: 22px; font-weight: bold; color: var(--primary); }
         
-        footer { text-align: center; padding: 40px; color: #adb5bd; font-size: 12px; border-top: 1px solid #eee; margin-top: 50px; }
+        .badge-guaranteed {
+            background-color: #d4edda;
+            color: #155724;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: bold;
+        }
+        .badge-normal {
+            background-color: #e2e3e5;
+            color: #383d41;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 11px;
+        }
     </style>
 </head>
 <body>
 
-    <header>
-        <div class="logo-box">
-            <img src="https://e.top4top.io/p_3753yucuk1.jpg" alt="وزارة التربية">
-        </div>
-        <h1>دليل المؤسسات التربوية بالجزائر</h1>
-    </header>
+<div class="container">
+    <h1>حاسبة التمثيل النقابي الذكية لـ 71 ولاية</h1>
+    <p class="header-desc">تطبيق مرن يدمج التمثيل الجغرافي المضمون (مقعد لكل ولاية كحد أدنى) مع التوزيع النسبي العادل</p>
 
-    <div class="container">
-        
-        <div class="search-container">
-            <input type="text" id="target" placeholder="ابحث عن أي مؤسسة (اسم المؤسسة + الولاية)..." onkeypress="if(event.key==='Enter') searchNow()">
-            <button class="search-btn" onclick="searchNow()">بحث</button>
-        </div>
-
-        <div id="resultArea">
-            <div class="result-card">
-                <h2 id="resTitle" style="font-size: 18px; margin: 0 0 20px 0;"></h2>
-                <div class="action-btns">
-                    <a id="dirL" href="#" target="_blank" class="action-btn">
-                        <svg viewBox="0 0 24 24"><path d="M22.43 10.59l-9.01-9.01c-.75-.75-1.96-.75-2.71 0l-9.01 9.01c-.75.75-.75 1.96 0 2.71l9.01 9.01c.75.75 1.96.75 2.71 0l9.01-9.01c.75-.76.75-1.97 0-2.71zM11 18V9l-4 4h9v5h-2v-3H9l2-2v5z"/></svg>
-                        <span>الاتجاهات</span>
-                    </a>
-                    <a id="pL" href="#" target="_blank" class="action-btn">
-                        <svg viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
-                        <span>اتصال مباشر</span>
-                    </a>
-                    <a id="phL" href="#" target="_blank" class="action-btn">
-                        <svg viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
-                        <span>الصور</span>
-                    </a>
-                    <a id="mL" href="#" target="_blank" class="action-btn">
-                        <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
-                        <span>الموقع</span>
-                    </a>
-                </div>
-            </div>
-        </div>
-
-        <div class="section-title">🏢 المعاهد الوطنية لتكوين مستخدمي التربية</div>
-        
-        <div class="inst-grid" id="instGrid">
-            </div>
-
-        <footer>
-            جميع الحقوق محفوظة © 2026 | دليل المؤسسات التربوية
-        </footer>
+    <div class="alert-box" id="warningBox">
+        <strong>تنبيه تنظيمي:</strong> <span id="warningText"></span>
     </div>
 
-    <script>
-        const institutes = [
-            "المعهد الوطني (الحراش) - الجزائر", "معهد تكوين مستخدمي التربية - الأغواط", 
-            "معهد تكوين مستخدمي التربية - بشار", "معهد تكوين مستخدمي التربية - البليدة", 
-            "معهد تكوين مستخدمي التربية - تيارت", "معهد تكوين مستخدمي التربية - سطيف", 
-            "معهد تكوين مستخدمي التربية - سعيدة", "معهد تكوين مستخدمي التربية - قسنطينة", 
-            "معهد تكوين مستخدمي التربية - مستغانم", "معهد تكوين مستخدمي التربية - معسكر", 
-            "معهد تكوين مستخدمي التربية - ورقلة", "معهد تكوين مستخدمي التربية - وهران", 
-            "معهد تكوين مستخدمي التربية - الوادي", "معهد تكوين مستخدمي التربية - ميلة", 
-            "معهد تكوين مستخدمي التربية - عين تموشنت", "معهد تكوين مستخدمي التربية - غليزان"
-        ];
+    <div class="section">
+        <h2>1. محددات المؤتمر الوطني والتمثيل العادل</h2>
+        <div class="form-grid">
+            <div class="form-group">
+                <label for="targetDelegates">إجمالي عدد مقاعد المندوبين للمؤتمر:</label>
+                <input type="number" id="targetDelegates" value="150" min="71">
+                <small style="color: #6c757d;">(يفضل أن يكون 71 أو أكثر لضمان تمثيل كل ولاية بمندوب واحد على الأقل)</small>
+            </div>
+            <div class="form-group">
+                <label for="targetCouncil">إجمالي عدد أعضاء المجلس الوطني:</label>
+                <input type="number" id="targetCouncil" value="100" min="71">
+                <small style="color: #6c757d;">(يفضل أن يكون 71 أو أكثر لضمان تمثيل كل ولاية بعضو مجلس واحد على الأقل)</small>
+            </div>
+        </div>
+    </div>
 
-        function loadInstitutes() {
-            const grid = document.getElementById('instGrid');
-            institutes.forEach(name => {
-                const card = document.createElement('a');
-                card.className = 'inst-card';
-                card.target = '_blank';
-                card.href = `https://www.google.com/maps/search/${encodeURIComponent(name)}`;
-                card.innerHTML = `
-                    <div class="inst-icon">
-                        <svg viewBox="0 0 24 24"><path d="M12 3L1 9l11 6 9-4.91V17h2V9M5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82z"/></svg>
-                    </div>
-                    <h3>${name}</h3>
-                    <span class="dir-badge">الاتجاهات</span>
-                `;
-                grid.appendChild(card);
+    <div class="section">
+        <h2>2. هيكل الولايات والانخراطات (71 ولاية)</h2>
+        <p style="margin: 0 0 15px 0; color: #555;">يمكنك تعديل أرقام المنخرطين أدناه مباشرة أو استخدام الأزرار لتسهيل العملية:</p>
+        
+        <div class="table-container">
+            <table id="provincesTable">
+                <thead>
+                    <tr>
+                        <th style="width: 80px;">الرقم</th>
+                        <th>اسم الولاية / الجهة</th>
+                        <th>عدد المنخرطين بالولاية</th>
+                        <th style="width: 100px;">إجراء</th>
+                    </tr>
+                </thead>
+                <tbody id="provincesTbody">
+                    </tbody>
+            </table>
+        </div>
+        
+        <div class="action-row">
+            <button class="btn btn-info" onclick="addBlankRow()">+ إضافة ولاية مخصصة</button>
+            <button class="btn btn-danger" onclick="generate71VirtualProvinces()">إعادة تعيين (71 ولاية افتراضية)</button>
+        </div>
+    </div>
+
+    <div style="text-align: center; margin-top: 20px;">
+        <button class="btn btn-success" style="font-size: 18px; padding: 15px 50px;" onclick="calculateRepresentation()">حساب وتوزيع المقاعد بالإنصاف الجغرافي</button>
+    </div>
+
+    <div class="results-box" id="resultsBox">
+        <h2>3. التقرير النهائي لتوزيع المقاعد</h2>
+        
+        <div class="summary-cards">
+            <div class="card">
+                <h4>إجمالي الولايات النشطة</h4>
+                <span id="sumTotalProvinces">0</span>
+            </div>
+            <div class="card">
+                <h4>إجمالي المنخرطين وطنيًا</h4>
+                <span id="sumTotalMembers">0</span>
+            </div>
+            <div class="card">
+                <h4>حاصل المندوبين (الفائض)</h4>
+                <span id="sumQuotientD">0</span>
+            </div>
+            <div class="card">
+                <h4>حاصل المجلس (الفائض)</h4>
+                <span id="sumQuotientC">0</span>
+            </div>
+        </div>
+
+        <div style="max-height: 500px; overflow-y: auto; border: 1px solid var(--border); border-radius: 6px;">
+            <table id="resultsTable">
+                <thead>
+                    <tr>
+                        <th rowspan="2" style="width: 60px;">الرقم</th>
+                        <th rowspan="2">الولاية</th>
+                        <th rowspan="2">المنخرطين</th>
+                        <th colspan="3" style="background-color: #2e4053;">توزيع المندوبين (الـ <span id="lblTotalD">0</span>)</th>
+                        <th colspan="3" style="background-color: #34495e;">توزيع المجلس الوطني (الـ <span id="lblTotalC">0</span>)</th>
+                    </tr>
+                    <tr>
+                        <th style="background-color: #2e4053; font-size: 11px;">مضمون + نسبي</th>
+                        <th style="background-color: #2e4053; font-size: 11px;">أكبر البقايا</th>
+                        <th style="background-color: var(--secondary);">النهائي</th>
+                        <th style="background-color: #34495e; font-size: 11px;">مضمون + نسبي</th>
+                        <th style="background-color: #34495e; font-size: 11px;">أكبر البقايا</th>
+                        <th style="background-color: var(--secondary);">النهائي</th>
+                    </tr>
+                </thead>
+                <tbody id="resultsTbody">
+                    </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+    // قائمة الولايات الـ 58 الرسمية في الجزائر كمثال واقعي للمستخدم
+    const algerianWilayas = [
+        "أدرار", "الشلف", "الأغواط", "أم البواقي", "باتنة", "بجاية", "بسكرة", "بشار", "البليدة", "البويرة",
+        "تمنراست", "تبسة", "تلمسان", "تيارت", "تيزي وزو", "الجزائر", "الجلفة", "جيجل", "سطيف", "سعيدة",
+        "سكيكدة", "سيدي بلعباس", "عنابة", "قالمة", "قسنطينة", "المدية", "مستغانم", "المسيلة", "معسكر", "ورقلة",
+        "وهران", "البيض", "إليزي", "برج بوعريريج", "بومرداس", "الطارف", "تندوف", "تيسمسيلت", "الوادي", "خنشلة",
+        "سوق أهراس", "تيبازة", "ميلة", "عين الدفلى", "النعامة", "عين تموشنت", "غرداية", "غليزان", "تيميمون", "برج باجي مختار",
+        "أولاد جلال", "بني عباس", "عين صالح", "عين قزام", "تقرت", "جانت", "المغير", "المنيعة"
+    ];
+
+    // لتوليد 71 ولاية كاملة عند تشغيل التطبيق أول مرة
+    function generate71VirtualProvinces() {
+        const tbody = document.getElementById('provincesTbody');
+        tbody.innerHTML = '';
+        
+        for (let i = 1; i <= 71; i++) {
+            let name = "";
+            if (i <= algerianWilayas.length) {
+                name = algerianWilayas[i - 1];
+            } else {
+                name = `ولاية منتدبة جديدة ${i - algerianWilayas.length}`;
+            }
+            
+            // توليد أرقام منخرطين افتراضية واقعية متفاوتة الكثافة
+            let randomMembers = 0;
+            if (i === 16 || i === 17 || i === 19 || i === 31) { // ولايات ذات كثافة عالية جداً كأمثلة
+                randomMembers = Math.floor(Math.random() * 3000) + 4000; // 4000 to 7000
+            } else {
+                randomMembers = Math.floor(Math.random() * 1500) + 150; // 150 to 1650
+            }
+
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td><strong>${i}</strong></td>
+                <td><input type="text" class="p-name" value="${name}" style="width: 80%;"></td>
+                <td><input type="number" class="p-members" value="${randomMembers}" min="0" style="width: 80%;"></td>
+                <td><button class="btn btn-danger" style="padding: 5px 10px; font-size: 12px;" onclick="removeRow(this)">حذف</button></td>
+            `;
+            tbody.appendChild(tr);
+        }
+    }
+
+    function addBlankRow() {
+        const tbody = document.getElementById('provincesTbody');
+        const count = tbody.querySelectorAll('tr').length + 1;
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+            <td><strong>${count}</strong></td>
+            <td><input type="text" class="p-name" placeholder="اسم الولاية الجديدة" style="width: 80%;"></td>
+            <td><input type="number" class="p-members" value="100" min="0" style="width: 80%;"></td>
+            <td><button class="btn btn-danger" style="padding: 5px 10px; font-size: 12px;" onclick="removeRow(this)">حذف</button></td>
+        `;
+        tbody.appendChild(tr);
+    }
+
+    function removeRow(btn) {
+        const row = btn.closest('tr');
+        const tbody = document.getElementById('provincesTbody');
+        if (tbody.querySelectorAll('tr').length > 1) {
+            row.remove();
+            reorderNumbers();
+        } else {
+            alert('يجب الحفاظ على ولاية واحدة على الأقل بالجدول.');
+        }
+    }
+
+    function reorderNumbers() {
+        const rows = document.querySelectorAll('#provincesTbody tr');
+        rows.forEach((row, index) => {
+            row.cells[0].querySelector('strong').innerText = index + 1;
+        });
+    }
+
+    function calculateRepresentation() {
+        const targetD = parseInt(document.getElementById('targetDelegates').value) || 0;
+        const targetC = parseInt(document.getElementById('targetCouncil').value) || 0;
+
+        const rows = document.querySelectorAll('#provincesTbody tr');
+        let provinces = [];
+        let totalMembers = 0;
+
+        rows.forEach((row, index) => {
+            const name = row.querySelector('.p-name').value || `ولاية غير مسماة ${index + 1}`;
+            const members = parseInt(row.querySelector('.p-members').value) || 0;
+            totalMembers += members;
+            provinces.push({
+                id: index + 1,
+                name: name,
+                members: members,
+                
+                // حسابات المندوبين
+                baseD: 0,       // المقاعد النسبية الأساسية
+                remainderD: 0,  // البواقي النسبية
+                bonusD: 0,      // المقاعد الموزعة عبر أكبر البقايا
+                finalD: 0,      // الإجمالي النهائي للمندوبين بالولاية
+                
+                // حسابات المجلس الوطني
+                baseC: 0,       // المقاعد النسبية الأساسية للمجلس
+                remainderC: 0,  // البواقي النسبية للمجلس
+                bonusC: 0,      // مقاعد أكبر البقايا للمجلس
+                finalC: 0       // الإجمالي النهائي للمجلس الوطني بالولاية
             });
+        });
+
+        const totalProvinces = provinces.length;
+
+        if (totalProvinces === 0) {
+            alert('يرجى التأكد من وجود ولايات مدرجة بالجدول.');
+            return;
+        }
+        if (totalMembers === 0) {
+            alert('يرجى ملء أرقام المنخرطين بالولايات بشكل صحيح (الإجمالي يجب أن يفوق الصفر).');
+            return;
         }
 
-        function searchNow() {
-            const val = document.getElementById('target').value.trim();
-            if(!val) return;
+        // معالجة علب التحذيرات
+        const warningBox = document.getElementById('warningBox');
+        const warningText = document.getElementById('warningText');
+        warningBox.style.display = 'none';
+        warningText.innerText = '';
+        let warnings = [];
+
+        // متغيرات الحواصل المعروضة
+        let displayQD = 0;
+        let displayQC = 0;
+
+        // ==========================
+        // أولاً: توزيع مقاعد المندوبين
+        // ==========================
+        if (targetD >= totalProvinces) {
+            // نمط التمثيل الجغرافي المضمون (كل ولاية تحصل على مقعد واحد على الأقل كقاعدة انطلاق)
+            provinces.forEach(p => { p.finalD = 1; });
+            const remainingD = targetD - totalProvinces; // المقاعد المتبقية بعد التوزيع المضمون لكل الولايات
             
-            document.getElementById('resultArea').style.display = 'block';
-            document.getElementById('resTitle').innerText = "نتائج البحث عن: " + val;
+            if (remainingD > 0) {
+                // حساب الحاصل الانتخابي بناءً على المقاعد المتبقية فقط لضمان التناسب الدقيق
+                const qD = totalMembers / remainingD;
+                displayQD = qD;
+                let allocatedD = 0;
+
+                provinces.forEach(p => {
+                    p.baseD = Math.floor(p.members / qD);
+                    p.remainderD = p.members - (p.baseD * qD);
+                    p.finalD += p.baseD;
+                    allocatedD += p.baseD;
+                });
+
+                // توزيع الفوارق المتبقية حسب قاعدة أكبر البقايا
+                let leftoverD = remainingD - allocatedD;
+                let sortedForD = [...provinces].sort((a, b) => b.remainderD - a.remainderD);
+                for (let i = 0; i < leftoverD; i++) {
+                    sortedForD[i % totalProvinces].bonusD = 1;
+                    sortedForD[i % totalProvinces].finalD += 1;
+                }
+            } else {
+                displayQD = totalMembers / totalProvinces;
+            }
+        } else {
+            // إذا كان العدد الكلي للمقاعد غير كافٍ لضمان تمثيل كل ولاية بمقعد واحد
+            warnings.push(`العدد الإجمالي للمندوبين المستهدفين (${targetD}) أقل من عدد الولايات (${totalProvinces})، لذا تعذر رياضياً ضمان تمثيل كل ولاية بمقعد. تم استخدام التوزيع النسبي الكلاسيكي مباشرة وبدون ضمان مقعد لكل ولاية.`);
             
-            const q = encodeURIComponent(val + " التربية الجزائر");
-            
-            // روابط حية وطنية
-            document.getElementById('dirL').href = `https://www.google.com/maps/search/${q}`;
-            document.getElementById('pL').href = `https://www.google.com/search?q=numéro+téléphone+${q}`;
-            document.getElementById('phL').href = `https://www.google.com/search?q=${q}&tbm=isch`;
-            document.getElementById('mL').href = `https://www.google.com/maps/search/${q}`;
-            
-            document.getElementById('resultArea').scrollIntoView({ behavior: 'smooth' });
+            const qD = totalMembers / targetD;
+            displayQD = qD;
+            let allocatedD = 0;
+
+            provinces.forEach(p => {
+                p.baseD = Math.floor(p.members / qD);
+                p.remainderD = p.members - (p.baseD * qD);
+                p.finalD = p.baseD;
+                allocatedD += p.baseD;
+            });
+
+            let leftoverD = targetD - allocatedD;
+            let sortedForD = [...provinces].sort((a, b) => b.remainderD - a.remainderD);
+            for (let i = 0; i < leftoverD; i++) {
+                sortedForD[i % totalProvinces].bonusD = 1;
+                sortedForD[i % totalProvinces].finalD += 1;
+            }
         }
 
-        window.onload = loadInstitutes;
-    </script>
+        // ==========================
+        // ثانياً: توزيع مقاعد المجلس الوطني
+        // ==========================
+        if (targetC >= totalProvinces) {
+            // نمط التمثيل الجغرافي المضمون (كل ولاية تحصل على مقعد واحد في المجلس الوطني كقاعدة انطلاق)
+            provinces.forEach(p => { p.finalC = 1; });
+            const remainingC = targetC - totalProvinces; 
+            
+            if (remainingC > 0) {
+                const qC = totalMembers / remainingC;
+                displayQC = qC;
+                let allocatedC = 0;
+
+                provinces.forEach(p => {
+                    p.baseC = Math.floor(p.members / qC);
+                    p.remainderC = p.members - (p.baseC * qC);
+                    p.finalC += p.baseC;
+                    allocatedC += p.baseC;
+                });
+
+                let leftoverC = remainingC - allocatedC;
+                let sortedForC = [...provinces].sort((a, b) => b.remainderC - a.remainderC);
+                for (let i = 0; i < leftoverC; i++) {
+                    sortedForC[i % totalProvinces].bonusC = 1;
+                    sortedForC[i % totalProvinces].finalC += 1;
+                }
+            } else {
+                displayQC = totalMembers / totalProvinces;
+            }
+        } else {
+            // تعذر ضمان مقعد واحد لكل ولاية لعدم كفاية المقاعد
+            warnings.push(`العدد الإجمالي لأعضاء المجلس الوطني المستهدفين (${targetC}) أقل من عدد الولايات (${totalProvinces})، لذا تم استخدام التوزيع النسبي الكلاسيكي المباشر دون احتساب التمثيل الأدنى المضمون.`);
+            
+            const qC = totalMembers / targetC;
+            displayQC = qC;
+            let allocatedC = 0;
+
+            provinces.forEach(p => {
+                p.baseC = Math.floor(p.members / qC);
+                p.remainderC = p.members - (p.baseC * qC);
+                p.finalC = p.baseC;
+                allocatedC += p.baseC;
+            });
+
+            let leftoverC = targetC - allocatedC;
+            let sortedForC = [...provinces].sort((a, b) => b.remainderC - a.remainderC);
+            for (let i = 0; i < leftoverC; i++) {
+                sortedForC[i % totalProvinces].bonusC = 1;
+                sortedForC[i % totalProvinces].finalC += 1;
+            }
+        }
+
+        // عرض التنبيهات والتحذيرات للمسؤول التنظيمي
+        if (warnings.length > 0) {
+            warningBox.style.display = 'block';
+            warningText.innerHTML = warnings.join('<br><br>');
+        }
+
+        // تحديث كروت النتائج والمجاميع الإحصائية في التقرير
+        document.getElementById('sumTotalProvinces').innerText = totalProvinces;
+        document.getElementById('sumTotalMembers').innerText = totalMembers.toLocaleString();
+        document.getElementById('sumQuotientD').innerText = (Math.round(displayQD * 100) / 100).toLocaleString();
+        document.getElementById('sumQuotientC').innerText = (Math.round(displayQC * 100) / 100).toLocaleString();
+        
+        document.getElementById('lblTotalD').innerText = targetD;
+        document.getElementById('lblTotalC').innerText = targetC;
+
+        // ملء جدول البيانات والنتائج النهائية للتطبيق
+        const resultsTbody = document.getElementById('resultsTbody');
+        resultsTbody.innerHTML = '';
+
+        let checkTotalD = 0;
+        let checkTotalC = 0;
+
+        provinces.forEach(p => {
+            checkTotalD += p.finalD;
+            checkTotalC += p.finalC;
+
+            // تحديد ما إذا كانت الولاية قد نالت المقعد المضمون أولاً لتمييزها بصرياً
+            const tagD = targetD >= totalProvinces ? `<span class="badge-guaranteed">1 مضمون + ${p.baseD}</span>` : `<span class="badge-normal">${p.baseD}</span>`;
+            const tagC = targetC >= totalProvinces ? `<span class="badge-guaranteed">1 مضمون + ${p.baseC}</span>` : `<span class="badge-normal">${p.baseC}</span>`;
+
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td><strong>${p.id}</strong></td>
+                <td><strong>${p.name}</strong></td>
+                <td>${p.members.toLocaleString()}</td>
+                <td>${tagD}</td>
+                <td>${p.bonusD > 0 ? '+1' : '0'}</td>
+                <td style="font-weight:bold; color:var(--secondary); font-size: 16px;">${p.finalD}</td>
+                <td>${tagC}</td>
+                <td>${p.bonusC > 0 ? '+1' : '0'}</td>
+                <td style="font-weight:bold; color:var(--secondary); font-size: 16px;">${p.finalC}</td>
+            `;
+            resultsTbody.appendChild(tr);
+        });
+
+        // سطر التأكيد على دقة التوزيع والمجاميع الإجمالية للمؤتمر
+        const trSum = document.createElement('tr');
+        trSum.style.backgroundColor = '#ecf0f1';
+        trSum.style.fontWeight = 'bold';
+        trSum.innerHTML = `
+            <td colspan="3">مجموع توزيع المؤتمر (للتدقيق والرقابة)</td>
+            <td colspan="3" style="color:var(--primary); font-size: 15px;">تم توزيع: ${checkTotalD} مقعد مندوب</td>
+            <td colspan="3" style="color:var(--primary); font-size: 15px;">تم توزيع: ${checkTotalC} مقعد مجلس وطني</td>
+        `;
+        resultsTbody.appendChild(trSum);
+
+        // فتح صندوق التقرير والتمرير السلس نحو الأسفل لعرضه
+        document.getElementById('resultsBox').style.display = 'block';
+        document.getElementById('resultsBox').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // تشغيل التوليد التلقائي للولايات مباشرة فور تحميل الصفحة ليجرب المستخدم التطبيق فوراً
+    window.onload = function() {
+        generate71VirtualProvinces();
+    };
+</script>
+
 </body>
 </html>
