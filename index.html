@@ -6,13 +6,16 @@
     <title>حاسبة زيادات أجور قطاع التربية 2027</title>
     <style>
         :root {
-            --primary-color: #0d9488;
-            --primary-hover: #0f766e;
+            /* يمكنك تغيير هذه الأكواد لتطابق ألوان الشعار بدقة أكبر إذا أردت */
+            --primary-color: #1e3a8a; /* أزرق داكن نقابي */
+            --primary-hover: #1e40af; /* أزرق أفتح قليلا عند تمرير الماوس */
             --bg-color: #f3f4f6;
             --card-bg: #ffffff;
             --text-main: #1f2937;
             --text-muted: #4b5563;
             --border-color: #e5e7eb;
+            --highlight-bg: #dbeafe; /* خلفية زرقاء فاتحة للنتائج */
+            --highlight-text: #1e40af;
         }
 
         body {
@@ -38,11 +41,22 @@
             margin-bottom: 20px;
         }
 
+        .logo-container {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .logo-container img {
+            max-width: 120px;
+            height: auto;
+        }
+
         h1 {
             text-align: center;
             color: var(--primary-color);
             font-size: 24px;
             margin-bottom: 5px;
+            margin-top: 5px;
         }
 
         p.subtitle {
@@ -77,7 +91,7 @@
         select:focus, input:focus {
             outline: none;
             border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.1);
+            box-shadow: 0 0 0 3px rgba(30, 58, 138, 0.1);
         }
         
         optgroup {
@@ -111,8 +125,8 @@
 
         .result-card {
             display: none;
-            background-color: #f0fdf4;
-            border: 1px solid #bbf7d0;
+            background-color: #f8fafc;
+            border: 1px solid #bfdbfe;
         }
 
         .result-item {
@@ -141,8 +155,8 @@
 
         .highlight-value {
             font-size: 22px;
-            color: #166534;
-            background: #dcfce7;
+            color: var(--highlight-text);
+            background: var(--highlight-bg);
             padding: 4px 10px;
             border-radius: 6px;
         }
@@ -154,12 +168,32 @@
             text-align: justify;
             line-height: 1.5;
         }
+
+        .designer-copyright {
+            text-align: center;
+            margin-top: 25px;
+            padding-top: 15px;
+            border-top: 1px solid var(--border-color);
+            font-size: 13px;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .designer-copyright span {
+            color: var(--primary-color);
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
 
 <div class="container">
     <div class="card">
+        <!-- قسم الشعار -->
+        <div class="logo-container">
+            <img src="https://e.top4top.io/p_3755iop170.png" alt="شعار النقابة">
+        </div>
+
         <h1>حاسبة الزيادات 2027</h1>
         <p class="subtitle">تطبيق لمحاكاة أثر 169 نقطة استدلالية بالتصنيفات الجديدة 2025</p>
 
@@ -294,7 +328,7 @@
     </div>
 
     <div class="card result-card" id="resultCard">
-        <h2 style="color: #166534; text-align: center; margin-top: 0;">نتائج المحاكاة</h2>
+        <h2 style="color: var(--primary-color); text-align: center; margin-top: 0;">نتائج المحاكاة</h2>
         
         <div class="result-item">
             <span class="result-label">الزيادة الصافية في الراتب الشهري:</span>
@@ -316,6 +350,11 @@
         <p class="note">
             * <b>ملاحظة برمجية:</b> الحسابات مبنية على إضافة 169 نقطة استدلالية. المنح المتعلقة بالخبرة البيداغوجية تتغير آلياً حسب درجتك المختارة، وتم برمجة رتب التأطير والتفتيش (صنف 16 فما فوق وخارج الصنف) بنسبة مردودية أعلى وفق المعايير المعمول بها.
         </p>
+
+        <!-- حقوق التصميم -->
+        <div class="designer-copyright">
+            تصميم وبرمجة: <span>حميدي البشير</span> &copy; أكتوبر 2026
+        </div>
     </div>
 </div>
 
@@ -359,7 +398,6 @@
 
         const netSalaryIncrease = totalBrutIncrease - ssIncrease - irgIncrease;
 
-        // منحة المردودية 40% للتأطير والتفتيش (صنف 16 وما فوق)، و30% للبقية
         const mardoudiaRate = (rank >= 16) ? 0.40 : 0.30;
         
         const mardoudiaBrutInc3Months = (baseIncreaseBrut * mardoudiaRate) * 3;
