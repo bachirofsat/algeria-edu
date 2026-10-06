@@ -3,920 +3,383 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>نظام إدارة سجلات النقابة الوطنية لعمال التربية</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <title>حاسبة زيادات أجور قطاع التربية 2027</title>
     <style>
         :root {
-            --primary-green: #007a3d;
-            --primary-red: #ce1126;
-            --bg-color: #f4f7f6;
-            --white: #ffffff;
-            --text-dark: #333333;
-            --border-color: #e0e0e0;
+            --primary-color: #0d9488;
+            --primary-hover: #0f766e;
+            --bg-color: #f3f4f6;
+            --card-bg: #ffffff;
+            --text-main: #1f2937;
+            --text-muted: #4b5563;
+            --border-color: #e5e7eb;
         }
 
-        * { box-sizing: border-box; font-family: 'Cairo', sans-serif; margin: 0; padding: 0; }
-        body { background-color: var(--bg-color); color: var(--text-dark); display: flex; height: 100vh; overflow: hidden; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
 
-        /* القائمة الجانبية */
-        .sidebar { width: 250px; background-color: var(--white); border-left: 2px solid var(--primary-green); display: flex; flex-direction: column; box-shadow: -2px 0 10px rgba(0,0,0,0.05); z-index: 10; flex-shrink: 0; }
-        .sidebar-header { padding: 20px; text-align: center; background-color: var(--primary-green); color: var(--white); border-bottom: 4px solid var(--primary-red); }
-        .sidebar-logo { width: 80px; height: auto; margin-bottom: 10px; background-color: var(--white); border-radius: 50%; padding: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
-        .sidebar-header h2 { font-size: 1.1rem; margin-top: 5px; }
-        
-        .nav-section-title { background-color: var(--primary-red); color: var(--white); padding: 8px 15px; font-size: 0.9rem; font-weight: bold; text-align: center; margin-top: 10px; }
-        #nav-buttons { overflow-y: auto; flex: 1; display: flex; flex-direction: column; }
-        
-        .nav-btn { background: none; border: none; padding: 12px 15px; text-align: right; width: 100%; font-size: 0.95rem; font-weight: 600; color: var(--text-dark); cursor: pointer; transition: all 0.3s ease; border-bottom: 1px solid var(--border-color); display: flex; align-items: center; gap: 10px; }
-        .nav-btn:hover { background-color: #eaf5ef; color: var(--primary-green); }
-        .nav-btn.active { background-color: var(--primary-green); color: var(--white); border-right: 5px solid var(--primary-red); }
+        .container {
+            width: 100%;
+            max-width: 600px;
+        }
 
-        /* المحتوى الرئيسي */
-        .main-content { flex: 1; display: flex; flex-direction: column; overflow-y: auto; padding: 20px; width: 100%; }
-        .top-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px; }
-        .top-header h1 { color: var(--primary-green); font-size: 1.6rem; display: flex; align-items: center; gap: 10px; }
-        
-        .top-actions { display: flex; gap: 10px; }
-        .btn-toggle, .btn-wilaya { color: var(--white); border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer; font-weight: bold; font-size: 0.95rem; transition: background 0.3s; display: flex; align-items: center; gap: 8px; }
-        .btn-toggle { background-color: var(--primary-red); }
-        .btn-toggle:hover { background-color: #a80e1e; }
-        .btn-wilaya { background-color: var(--primary-green); }
-        .btn-wilaya:hover { background-color: #005a2d; }
+        .card {
+            background-color: var(--card-bg);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05), 0 10px 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
 
-        .split-layout { display: flex; gap: 20px; height: calc(100% - 60px); transition: all 0.3s ease; }
+        h1 {
+            text-align: center;
+            color: var(--primary-color);
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
 
-        /* جزء الإدخال */
-        .entry-section { flex: 1.2; background: var(--white); border-radius: 10px; padding: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); border-top: 4px solid var(--primary-red); overflow-y: auto; max-width: 500px; }
-        .entry-section.hidden { display: none; }
-        .entry-section h3 { margin-bottom: 20px; color: var(--primary-green); border-bottom: 2px solid var(--border-color); padding-bottom: 10px; }
-        
-        #alert-container .alert-box { background-color: #f8d7da; color: #721c24; padding: 15px; border: 1px solid #f5c6cb; border-radius: 5px; margin-bottom: 15px; font-weight: bold; text-align: center; font-size: 0.95rem; line-height: 1.5; }
+        p.subtitle {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 14px;
+            margin-bottom: 25px;
+        }
 
-        #dynamic-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-        .form-group { display: flex; flex-direction: column; }
-        .form-group.full-width { grid-column: 1 / -1; }
-        .form-group label { margin-bottom: 8px; font-weight: 600; font-size: 0.9rem; color: var(--primary-green); line-height: 1.4; }
-        
-        .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 10px; border: 1px solid var(--border-color); border-radius: 5px; font-size: 0.95rem; background-color: white; }
-        .form-group input[readonly] { background-color: #f1f1f1; font-weight: bold; color: var(--primary-red); border: 1px dashed var(--border-color); cursor: not-allowed; }
-        .form-group textarea { resize: vertical; min-height: 60px; }
-        .form-group input:focus, .form-group textarea:focus, .form-group select:focus { outline: none; border-color: var(--primary-green); }
-        
-        /* تنسيقات قسم أسئلة التقارير */
-        .report-section-header { grid-column: 1 / -1; background-color: #eaf5ef; padding: 10px; font-weight: bold; color: var(--primary-green); border-right: 4px solid var(--primary-green); margin-top: 15px; border-radius: 3px; }
+        .form-group {
+            margin-bottom: 15px;
+        }
 
-        .btn-submit { background-color: var(--primary-green); color: var(--white); border: none; padding: 12px 20px; width: 100%; border-radius: 5px; font-size: 1.1rem; cursor: pointer; transition: background 0.3s; font-weight: bold; margin-top: 20px; }
-        .btn-submit:hover { background-color: #005a2d; }
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 600;
+            font-size: 14px;
+        }
 
-        /* جزء العرض */
-        .dashboard-section { flex: 2; display: flex; flex-direction: column; gap: 20px; min-width: 0; }
-        .actions-panel { display: flex; gap: 10px; margin-bottom: 15px; flex-wrap: wrap; align-items: center; }
-        .action-btn { padding: 8px 12px; border: none; border-radius: 5px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 5px; color: var(--white); transition: 0.3s; font-size: 0.85rem; }
-        .btn-backup { background-color: #34495e; } .btn-backup:hover { background-color: #2c3e50; }
-        .btn-import { background-color: #f39c12; } .btn-import:hover { background-color: #e67e22; }
-        .btn-word { background-color: #2980b9; } .btn-word:hover { background-color: #2471a3; }
-        .btn-pdf { background-color: #c0392b; } .btn-pdf:hover { background-color: #a93226; }
-        .btn-back-table { background-color: #7f8c8d; display: none; } .btn-back-table:hover { background-color: #636e72; }
+        select, input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 14px;
+            font-family: inherit;
+            box-sizing: border-box;
+            transition: border-color 0.3s;
+        }
 
-        .data-table-container { flex: 1; background: var(--white); border-radius: 10px; padding: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); overflow: hidden; display: flex; flex-direction: column; }
+        select:focus, input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.1);
+        }
         
-        /* الترويسة الموحدة */
-        .official-header { display: flex; flex-direction: column; margin-bottom: 20px; color: #000; }
-        .header-top-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; text-align: center; font-weight: 700; line-height: 1.4; font-size: 0.95rem; }
-        .header-top-row img { width: 70px; height: auto; }
-        .header-separator { border-top: 2px dashed #000; margin: 5px 0; position: relative; }
-        .contact-info { display: flex; justify-content: space-between; font-size: 0.85rem; font-weight: 600; color: var(--primary-red); margin-top: -10px; background: var(--white); padding: 0 10px; width: fit-content; margin-left: auto; margin-right: auto; }
-        .header-bottom-row { display: flex; justify-content: space-between; align-items: flex-start; margin-top: 15px; font-weight: 900; font-size: 1.1rem; }
-        .header-title-center { text-align: center; flex: 1; font-size: 1.6rem; color: #000; font-weight: 900; }
-        
-        .table-responsive { overflow-x: auto; overflow-y: auto; flex: 1; position: relative; }
-        .table-responsive::before { content: ""; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: url('https://a.top4top.io/p_3797pbgxl0.png'); background-repeat: no-repeat; background-position: center 20%; background-size: 400px; opacity: 0.08; z-index: 0; pointer-events: none; }
+        optgroup {
+            font-weight: bold;
+            color: var(--primary-color);
+        }
 
-        table { width: 100%; border-collapse: collapse; position: relative; z-index: 1; }
-        th, td { padding: 8px 12px; text-align: right; border: 1px solid var(--primary-green); white-space: nowrap; font-size: 0.95rem; }
-        td.multiline-text { white-space: normal; min-width: 200px; }
-        th { background-color: var(--primary-green); color: var(--white); font-weight: bold; position: sticky; top: 0; }
-        tr { background-color: rgba(255, 255, 255, 0.8); }
-        
-        .action-icon-btn { background: none; border: none; cursor: pointer; font-size: 1.2rem; margin: 0 5px; }
-        .btn-view { color: #2980b9; }
-        .delete-btn { color: var(--primary-red); }
-        
-        /* تنسيق مستند التقرير */
-        #report-document-view { display: none; position: relative; z-index: 1; background: rgba(255,255,255,0.95); padding: 20px; line-height: 1.8; color: #000; text-align: right; font-size: 1.1rem; }
-        .report-section { margin-bottom: 20px; }
-        .report-section h4 { color: #007a3d; font-size: 1.2rem; margin-bottom: 10px; border-bottom: 2px solid #ce1126; padding-bottom: 5px; display: inline-block; }
-        .report-qa-block { margin-bottom: 10px; }
-        .report-q { font-weight: bold; color: #333; margin-bottom: 3px; }
-        .report-a { margin-right: 15px; font-weight: 600; color: #111; white-space: pre-wrap; }
-        .report-intro { margin-bottom: 30px; font-weight: bold; font-size: 1.2rem; text-align: center; }
-        .report-intro .to-sg { text-align: right; margin-bottom: 15px; font-size: 1.3rem; }
-        .report-footer { margin-top: 50px; display: flex; justify-content: space-between; font-weight: bold; }
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
 
-        @media (max-width: 768px) {
-            body { flex-direction: column; }
-            .sidebar { width: 100%; height: auto; flex-direction: row; border-left: none; border-bottom: 2px solid var(--primary-green); flex-wrap: wrap; }
-            .sidebar-header { display: none; }
-            .nav-section-title { width: 100%; margin-top: 0; }
-            #nav-buttons { display: flex; flex-direction: row; overflow-x: auto; white-space: nowrap; width: 100%; }
-            .nav-btn { width: auto; border-bottom: none; border-left: 1px solid var(--border-color); padding: 15px; justify-content: center; }
-            .nav-btn.active { border-right: none; border-bottom: 4px solid var(--primary-red); }
-            #dynamic-fields { grid-template-columns: 1fr; }
+        button {
+            width: 100%;
+            padding: 14px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: var(--primary-hover);
+        }
+
+        .result-card {
+            display: none;
+            background-color: #f0fdf4;
+            border: 1px solid #bbf7d0;
+        }
+
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px dashed #cbd5e1;
+        }
+
+        .result-item:last-child {
+            border-bottom: none;
+        }
+
+        .result-label {
+            font-weight: bold;
+            color: #334155;
+            font-size: 14px;
+        }
+
+        .result-value {
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        .highlight-value {
+            font-size: 22px;
+            color: #166534;
+            background: #dcfce7;
+            padding: 4px 10px;
+            border-radius: 6px;
+        }
+        
+        .note {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-top: 15px;
+            text-align: justify;
+            line-height: 1.5;
         }
     </style>
 </head>
 <body>
 
-    <aside class="sidebar">
-        <div class="sidebar-header">
-            <img src="https://a.top4top.io/p_3797pbgxl0.png" alt="شعار النقابة الوطنية لعمال التربية" class="sidebar-logo">
-            <h2>النقابة الوطنية<br>لعمال التربية</h2>
-        </div>
-        <div id="nav-buttons">
-            <!-- سيتم توليد الأزرار والأقسام هنا -->
-        </div>
-    </aside>
+<div class="container">
+    <div class="card">
+        <h1>حاسبة الزيادات 2027</h1>
+        <p class="subtitle">تطبيق لمحاكاة أثر 169 نقطة استدلالية بالتصنيفات الجديدة 2025</p>
 
-    <main class="main-content">
-        <div class="top-header">
-            <h1 id="current-title">الرئيسية</h1>
-            <div class="top-actions">
-                <button class="btn-wilaya" onclick="changeWilaya()"><i class="fa-solid fa-map-location-dot"></i> تحديد الأمانة الولائية</button>
-                <button id="toggle-form-btn" class="btn-toggle" onclick="toggleEntrySection()">
-                    <i class="fa-solid fa-eye-slash"></i> إخفاء الإدخال
-                </button>
+        <form id="calculatorForm">
+            <div class="form-group">
+                <label for="rank">الرتبة (حسب تصنيفات 2025)</label>
+                <select id="rank" required>
+                    <option value="" disabled selected>-- اختر رتبتك --</option>
+                    
+                    <optgroup label="التعليم الابتدائي">
+                        <option value="10">معلم مدرسة ابتدائية (صنف 10)</option>
+                        <option value="12">استاذ التعليم الابتدائي (صنف 12)</option>
+                        <option value="13">أستاذ التعليم الابتدائي قسم أول (صنف 13)</option>
+                        <option value="14">أستاذ التعليم الابتدائي قسم ثان (صنف 14)</option>
+                        <option value="15">أستاذ التعليم الابتدائي مميز (صنف 15)</option>
+                    </optgroup>
+
+                    <optgroup label="التعليم المتوسط">
+                        <option value="12">استاذ التعليم المتوسط (صنف 12)</option>
+                        <option value="13">أستاذ التعليم المتوسط قسم أول (صنف 13)</option>
+                        <option value="15">أستاذ التعليم المتوسط قسم ثان (صنف 15)</option>
+                        <option value="16">أستاذ التعليم المتوسط مميز (صنف 16)</option>
+                    </optgroup>
+
+                    <optgroup label="التعليم الثانوي">
+                        <option value="13">استاذ التعليم الثانوي (صنف 13)</option>
+                        <option value="14">أستاذ التعليم الثانوي قسم أول (صنف 14)</option>
+                        <option value="16">أستاذ التعليم الثانوي قسم ثان (صنف 16)</option>
+                        <option value="17">أستاذ التعليم الثانوي مميز (صنف 17)</option>
+                    </optgroup>
+
+                    <optgroup label="الإدارة والتأطير">
+                        <option value="14">ناظر في التعليم الابتدائي (صنف 14)</option>
+                        <option value="15">ناظر في التعليم المتوسط (صنف 15)</option>
+                        <option value="16">ناظر في التعليم الثانوي (صنف 16)</option>
+                        <option value="15">مدير المدرسة الابتدائية (صنف 15)</option>
+                        <option value="16">مدير المدرسة المتوسطة (صنف 16)</option>
+                        <option value="17">مدير المدرسة الثانوية (صنف 17)</option>
+                    </optgroup>
+
+                    <optgroup label="الاستشارة، التربية، والتوجيه">
+                        <option value="7">مساعد التربية (صنف 7)</option>
+                        <option value="8">مساعد رئيسي للتربية (صنف 8)</option>
+                        <option value="10">مشرف التربية / مربي متخصص (صنف 10)</option>
+                        <option value="11">مشرف رئيسي / مربي متخصص رئيسي (صنف 11)</option>
+                        <option value="12">مشرف رئيس / مربي متخصص رئيس (صنف 12)</option>
+                        <option value="13">مشرف عام / مربي متخصص عام / مستشار التربية (صنف 13)</option>
+                        <option value="12">مستشار التوجيه والإرشاد المدرسي والمهني (صنف 12)</option>
+                        <option value="13">مستشار محلل للتوجيه والإرشاد (صنف 13)</option>
+                        <option value="14">مستشار رئيسي للتوجيه والإرشاد (صنف 14)</option>
+                        <option value="16">مستشار رئيس للتوجيه والإرشاد (صنف 16)</option>
+                    </optgroup>
+
+                    <optgroup label="المخابر، المصالح الاقتصادية، والتغذية">
+                        <option value="5">عون تقني للمخابر (صنف 5)</option>
+                        <option value="7">معاون تقني للمخابر / مساعد المصالح الاقتصادية (صنف 7)</option>
+                        <option value="8">ملحق بالمخابر / مساعد رئيسي للمصالح الاقتصادية (صنف 8)</option>
+                        <option value="10">ملحق رئيسي بالمخابر / نائب مقتصد (صنف 10)</option>
+                        <option value="11">ملحق رئيس بالمخابر / نائب مقتصد مسير (صنف 11)</option>
+                        <option value="12">ملحق مشرف بالمخابر / مستشار التغذية المدرسية (صنف 12)</option>
+                        <option value="13">مستشار رئيسي في التغذية / مقتصد (صنف 13)</option>
+                        <option value="14">مستشار رئيس في التغذية / مقتصد رئيسي (صنف 14)</option>
+                    </optgroup>
+
+                    <optgroup label="سلك التفتيش">
+                        <option value="17">مفتش التعليم الابتدائي (صنف 17)</option>
+                        <option value="17">مفتش التعليم المتوسط (صنف 17)</option>
+                        <option value="17">مفتش التوجيه أو التسيير في المتوسطات والابتدائي (صنف 17)</option>
+                        <option value="18">مفتش التعليم الثانوي تخصص مواد/إدارة/توجيه (خ ص ق ف 1)</option>
+                        <option value="19">مفتش التربية الوطنية (خ ص ق ف 2)</option>
+                    </optgroup>
+                </select>
             </div>
+
+            <div class="grid-2">
+                <div class="form-group">
+                    <label for="degree">الدرجة (الأقدمية)</label>
+                    <select id="degree" required>
+                        <option value="0">الدرجة 0</option>
+                        <option value="1">الدرجة 1</option>
+                        <option value="2">الدرجة 2</option>
+                        <option value="3">الدرجة 3</option>
+                        <option value="4">الدرجة 4</option>
+                        <option value="5">الدرجة 5</option>
+                        <option value="6">الدرجة 6</option>
+                        <option value="7">الدرجة 7</option>
+                        <option value="8">الدرجة 8</option>
+                        <option value="9">الدرجة 9</option>
+                        <option value="10">الدرجة 10</option>
+                        <option value="11">الدرجة 11</option>
+                        <option value="12">الدرجة 12</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="zone">المنطقة الجغرافية</label>
+                    <select id="zone">
+                        <option value="north">الشمال</option>
+                        <option value="plateau">الهضاب العليا</option>
+                        <option value="south">الجنوب</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="grid-2">
+                <div class="form-group">
+                    <label for="family">الحالة العائلية</label>
+                    <select id="family" onchange="toggleKids()">
+                        <option value="single">أعزب / عزباء</option>
+                        <option value="married_no_kids">متزوج (بدون أولاد)</option>
+                        <option value="married_kids">متزوج (بأولاد)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="kids">عدد الأولاد</label>
+                    <input type="number" id="kids" min="0" value="0" disabled>
+                </div>
+            </div>
+
+            <div class="grid-2">
+                <div class="form-group">
+                    <label for="currentSalary">الراتب الصافي الحالي (دج)</label>
+                    <input type="number" id="currentSalary" placeholder="مثال: 56000" required>
+                </div>
+                <div class="form-group">
+                    <label for="currentMardoudia">المردودية الحالية (دج)</label>
+                    <input type="number" id="currentMardoudia" placeholder="مثال: 45000" required>
+                </div>
+            </div>
+
+            <button type="submit">احسب الزيادة بدقة</button>
+        </form>
+    </div>
+
+    <div class="card result-card" id="resultCard">
+        <h2 style="color: #166534; text-align: center; margin-top: 0;">نتائج المحاكاة</h2>
+        
+        <div class="result-item">
+            <span class="result-label">الزيادة الصافية في الراتب الشهري:</span>
+            <span class="result-value" id="resSalaryIncrease">0 دج</span>
         </div>
-
-        <div class="split-layout">
-            <section class="entry-section" id="entry-section">
-                <h3><i class="fa-solid fa-pen-to-square"></i> <span id="form-title">إضافة تسجيل جديد</span></h3>
-                <form id="data-form">
-                    <div id="alert-container"></div>
-                    <div id="dynamic-fields"></div>
-                    <!-- حاوية خاصة بأسئلة التقارير -->
-                    <div id="report-questions-container" style="display: none; grid-column: 1 / -1; display: grid; grid-template-columns: 1fr; gap: 15px;"></div>
-                    
-                    <button type="submit" class="btn-submit">حفظ البيانات <i class="fa-solid fa-save"></i></button>
-                </form>
-            </section>
-
-            <section class="dashboard-section">
-                <div class="actions-panel">
-                    <button class="action-btn btn-backup" onclick="exportBackup()"><i class="fa-solid fa-download"></i> تصدير البيانات</button>
-                    <button class="action-btn btn-import" onclick="document.getElementById('import-file').click()"><i class="fa-solid fa-upload"></i> استيراد</button>
-                    <input type="file" id="import-file" style="display: none;" accept=".json" onchange="importBackup(event)">
-                    <button class="action-btn btn-word" onclick="exportWord()"><i class="fa-solid fa-file-word"></i> تحميل Word</button>
-                    <button class="action-btn btn-pdf" onclick="exportPDF()"><i class="fa-solid fa-file-pdf"></i> تحميل PDF</button>
-                    <button class="action-btn btn-back-table" id="btn-back-table" onclick="backToTable()"><i class="fa-solid fa-arrow-right"></i> عودة للقائمة</button>
-                </div>
-
-                <div class="data-table-container">
-                    <div id="print-area">
-                        <div class="official-header">
-                            <div class="header-top-row">
-                                <img src="https://a.top4top.io/p_3797pbgxl0.png" alt="Logo">
-                                <div>
-                                    الجمهورية الجزائرية الديمقراطية الشعبية<br>
-                                    النقابة الوطنية لعمال التربية<br>
-                                    منظمة نقابية معتمدة تحت رقم : 2000/13/7<br>
-                                    العنوان : مدرسة عيسات إيدير سيدي أمحمد - الجزائر
-                                </div>
-                                <img src="https://a.top4top.io/p_3797pbgxl0.png" alt="Logo">
-                            </div>
-                            <div class="header-separator"></div>
-                            <div class="contact-info">
-                                <span style="margin-left: 20px;"><span style="color:#000;">البريد الإلكتروني :</span> Kouidery@ymail.com</span>
-                                <span><span style="color:#000;">الهاتف :</span> 0557072815</span>
-                            </div>
-                            <div class="header-bottom-row" id="header-bottom-row">
-                                <div id="display-wilaya" style="color: #000;">الأمانة الولائية لولاية الجلفة</div>
-                                <div class="header-title-center" id="print-title">سجل البريد الوارد</div>
-                                <div style="color: #000;" id="header-visa">تأشيرة الأمانة الولائية</div>
-                            </div>
-                        </div>
-
-                        <div class="table-responsive" id="main-table-view">
-                            <table id="data-table">
-                                <thead><tr id="table-head"></tr></thead>
-                                <tbody id="table-body"></tbody>
-                            </table>
-                        </div>
-
-                        <div id="report-document-view"></div>
-                    </div>
-                </div>
-            </section>
+        <div class="result-item">
+            <span class="result-label">الراتب الشهري الجديد 2027:</span>
+            <span class="result-value highlight-value" id="resNewSalary">0 دج</span>
         </div>
-    </main>
+        <div class="result-item">
+            <span class="result-label">الزيادة الصافية في المردودية (كل 3 أشهر):</span>
+            <span class="result-value" id="resMardoudiaIncrease">0 دج</span>
+        </div>
+        <div class="result-item">
+            <span class="result-label">منحة المردودية الجديدة:</span>
+            <span class="result-value highlight-value" id="resNewMardoudia">0 دج</span>
+        </div>
+        
+        <p class="note">
+            * <b>ملاحظة برمجية:</b> الحسابات مبنية على إضافة 169 نقطة استدلالية. المنح المتعلقة بالخبرة البيداغوجية تتغير آلياً حسب درجتك المختارة، وتم برمجة رتب التأطير والتفتيش (صنف 16 فما فوق وخارج الصنف) بنسبة مردودية أعلى وفق المعايير المعمول بها.
+        </p>
+    </div>
+</div>
 
-    <script>
-        // --- هيكلة استبيانات التقارير الدورية ---
-        const reportQuestionnaires = {
-            'org': {
-                name: "أمانة التنظيم والتنسيق",
-                sections: [
-                    { title: "1. تطور الهيكل التنظيمي والخارطة الجغرافية:", questions: [
-                        { id: 'q_org_1', label: "وضعية تنصيب وتجديد الهياكل المحلية (الفروع والمكاتب):", type: 'textarea' },
-                        { id: 'q_org_2', label: "مدى مطابقة الهياكل الحالية مع التقسيم الجغرافي واللوائح:", type: 'textarea' }
-                    ]},
-                    { title: "2. الإحصاء وبطاقية العضوية:", questions: [
-                        { id: 'q_org_3', label: "عدد المنخرطين الجدد خلال هذا الثلاثي:", type: 'number' },
-                        { id: 'q_org_4', label: "المجموع الكلي للمنخرطين وتوزيعهم حسب الأطوار والرتب:", type: 'textarea' },
-                        { id: 'q_org_5', label: "وتيرة تحيين البطاقية الرقمية والورقية:", type: 'text' }
-                    ]},
-                    { title: "3. الإشراف على التنسيقيات والجهات:", questions: [
-                        { id: 'q_org_6', label: "التنسيقيات الوطنية/الولائية التي تم الإشراف عليها ومتابعتها:", type: 'textarea' },
-                        { id: 'q_org_7', label: "نتائج التنسيق الميداني مع منسقي الجهات:", type: 'textarea' }
-                    ]},
-                    { title: "4. التظاهرات والبرنامج العام:", questions: [
-                        { id: 'q_org_8', label: "التظاهرات والوقفات المنظمة تنفيذاً لبرنامج الأمين العام:", type: 'textarea' },
-                        { id: 'q_org_9', label: "معالجة المشاكل التنظيمية وملفات الانضباط:", type: 'textarea' }
-                    ]},
-                    { title: "5. الصعوبات والمقترحات التنظيمية:", questions: [
-                        { id: 'q_org_10', label: "سرد العوائق والحلول المقترحة لتوسيع القاعدة:", type: 'textarea' }
-                    ]}
-                ]
-            },
-            'writing': {
-                name: "أمانة الكتابة والعلاقات العامة",
-                sections: [
-                    { title: "1. الحركة الإدارية والمراسلات:", questions: [
-                        { id: 'q_wri_1', label: "البريد الصادر (العدد والموضوعات الأساسية):", type: 'textarea' },
-                        { id: 'q_wri_2', label: "البريد الوارد (العدد، جهات الإرسال، والمعالجة):", type: 'textarea' },
-                        { id: 'q_wri_3', label: "الاستدعاءات المرسلة ومحاضر الاجتماعات المدونة:", type: 'textarea' }
-                    ]},
-                    { title: "2. السجلات الإدارية وأرشيف الأمانة:", questions: [
-                        { id: 'q_wri_4', label: "حالة مسك السجلات الإدارية وسجل الجمعيات العامة:", type: 'text' },
-                        { id: 'q_wri_5', label: "القرارات والتوصيات المصاغة ونسبة تبليغها للقواعد:", type: 'textarea' }
-                    ]},
-                    { title: "3. العلاقات العامة والتواصل المؤسساتي:", questions: [
-                        { id: 'q_wri_6', label: "اللقاءات مع المنظمات النقابية والاتحادات الشريكة:", type: 'textarea' },
-                        { id: 'q_wri_7', label: "التنسيق والشراكات والنشاطات المشتركة:", type: 'textarea' }
-                    ]},
-                    { title: "4. الآفاق والمقترحات:", questions: [
-                        { id: 'q_wri_8', label: "مقترحات لتطوير الرقمنة الإدارية والربط الخارجي:", type: 'textarea' }
-                    ]}
-                ]
-            },
-            'finance': {
-                name: "أمانة المالية والوسائل",
-                sections: [
-                    { title: "1. الوضعية المالية والمحاسبية:", questions: [
-                        { id: 'q_fin_1', label: "الرصيد الافتتاحي للثلاثي (دج):", type: 'number' },
-                        { id: 'q_fin_2', label: "مجموع المداخيل (اشتراكات، تبرعات) (دج):", type: 'number' },
-                        { id: 'q_fin_3', label: "مجموع النفقات والمصاريف الميدانية (دج):", type: 'number' },
-                        { id: 'q_fin_4', label: "الرصيد الختامي المتبقي (دج):", type: 'number' },
-                        { id: 'q_fin_5', label: "نسبة تنفيذ ميزانية السنة وتوافق الصرف:", type: 'textarea' }
-                    ]},
-                    { title: "2. تحصيل الاشتراكات والموارد:", questions: [
-                        { id: 'q_fin_6', label: "حصيلة اشتراكات الفروع والمكاتب (نسبة التحصيل):", type: 'text' },
-                        { id: 'q_fin_7', label: "الإجراءات المتخذة لترشيد الإنفاق وتنمية الموارد:", type: 'textarea' }
-                    ]},
-                    { title: "3. إدارة المقرات وتجهيز الوسائل:", questions: [
-                        { id: 'q_fin_8', label: "جرد الممتلكات العينية والعقارية المسجلة حديثاً:", type: 'textarea' },
-                        { id: 'q_fin_9', label: "الصيانة، إدارة المقر، واحتياجات التأهيل:", type: 'textarea' }
-                    ]},
-                    { title: "4. التكوين الإداري والمالي:", questions: [
-                        { id: 'q_fin_10', label: "الدورات والورشات التوجيهية لمسؤولي المالية:", type: 'textarea' }
-                    ]}
-                ]
-            },
-            'edu': {
-                name: "أمانة التربية والتكوين النقابي",
-                sections: [
-                    { title: "1. المناهج والبرامج التكوينية المنفذة:", questions: [
-                        { id: 'q_edu_1', label: "الدورات التدريبية المنجزة ومواضيعها:", type: 'textarea' },
-                        { id: 'q_edu_2', label: "عدد الإطارات المستفيدة من التكوين (حسب الرتب):", type: 'textarea' }
-                    ]},
-                    { title: "2. الدراسات والأيام الدراسية:", questions: [
-                        { id: 'q_edu_3', label: "النصوص القانونية والتربوية المدروسة:", type: 'textarea' },
-                        { id: 'q_edu_4', label: "الأيام الدراسية والملتقيات المنظمة مع الخبراء:", type: 'textarea' }
-                    ]},
-                    { title: "3. ترقية الفكر النقابي والمبادرات:", questions: [
-                        { id: 'q_edu_5', label: "الفضاءات الفكرية واللقاءات المنظمة:", type: 'textarea' },
-                        { id: 'q_edu_6', label: "التمثيل الخارجي بتكليف من الأمين العام:", type: 'textarea' }
-                    ]},
-                    { title: "4. التوصيات وبرنامج التكوين المقبل:", questions: [
-                        { id: 'q_edu_7', label: "أولويات التدريب والتطوير المؤسساتي للثلاثي القادم:", type: 'textarea' }
-                    ]}
-                ]
-            },
-            'social': {
-                name: "أمانة الشؤون الاجتماعية",
-                sections: [
-                    { title: "1. مبادرات التضامن وتحسين ظروف العمل:", questions: [
-                        { id: 'q_soc_1', label: "المساعدات والتضامنات الميدانية المنجزة لصالح العمال:", type: 'textarea' },
-                        { id: 'q_soc_2', label: "وضعية وظروف العمل والمطالب المرفوعة:", type: 'textarea' }
-                    ]},
-                    { title: "2. التعاونيات الاستهلاكية والتعاضديات:", questions: [
-                        { id: 'q_soc_3', label: "التراخيص الممنوحة والمكاتب المنصبة لتعاونيات غير ربحية:", type: 'textarea' },
-                        { id: 'q_soc_4', label: "الاتفاقيات المبرمة مع الممولين لخدمة المنخرطين:", type: 'textarea' }
-                    ]},
-                    { title: "3. الرحلات، المخيمات والخدمات الاجتماعية:", questions: [
-                        { id: 'q_soc_5', label: "النشاطات الترفيهية المنظمة (مخيمات، رحلات):", type: 'textarea' },
-                        { id: 'q_soc_6', label: "مستجدات ومتابعة ملف تسيير أموال الخدمات الاجتماعية:", type: 'textarea' }
-                    ]},
-                    { title: "4. المقترحات لترقية العمل الاجتماعي:", questions: [
-                        { id: 'q_soc_7', label: "أفكار لتوسيع الشراكات وتخفيف الأعباء المعيشية:", type: 'textarea' }
-                    ]}
-                ]
-            },
-            'media': {
-                name: "أمانة الإعلام والاتصال",
-                sections: [
-                    { title: "1. التغطية وصناعة المحتوى:", questions: [
-                        { id: 'q_med_1', label: "البيانات والبلاغات الصادرة والموزعة:", type: 'textarea' },
-                        { id: 'q_med_2', label: "التغطيات الإعلامية للمؤتمرات والنشاطات:", type: 'textarea' },
-                        { id: 'q_med_3', label: "النشريات، المجلات والملصقات المطبوعة والإلكترونية:", type: 'textarea' }
-                    ]},
-                    { title: "2. الحضور الرقمي والعلاقة مع وسائل الإعلام:", questions: [
-                        { id: 'q_med_4', label: "إحصائيات التفاعل على المنصات الرقمية وموقع النقابة:", type: 'textarea' },
-                        { id: 'q_med_5', label: "الحوارات، الاستضافات والمقالات الصحفية:", type: 'textarea' }
-                    ]},
-                    { title: "3. التكوين والأرشيف الإعلامي:", questions: [
-                        { id: 'q_med_6', label: "الورشات التكوينية للمكلفين بالإعلام بالمكاتب المحلية:", type: 'textarea' },
-                        { id: 'q_med_7', label: "وضعية بنك الصور والفيديوهات وأرشفة الوثائق:", type: 'textarea' }
-                    ]},
-                    { title: "4. مقترحات تطوير الرسالة الإعلامية:", questions: [
-                        { id: 'q_med_8', label: "استراتيجيات للتصدي للشائعات وتوجيه الرأي العام:", type: 'textarea' }
-                    ]}
-                ]
-            },
-            'legal': {
-                name: "أمانة المنازعات والشؤون القانونية",
-                sections: [
-                    { title: "1. السجل العام للنزاعات (الإحصاء والتصنيف):", questions: [
-                        { id: 'q_leg_1', label: "إجمالي النزاعات المسجلة خلال الثلاثي:", type: 'number' },
-                        { id: 'q_leg_2', label: "النزاعات الفردية (تعسف، عقوبات، ترقيات):", type: 'textarea' },
-                        { id: 'q_leg_3', label: "النزاعات الجماعية (ظروف تمدرس، مطالب مؤسساتية):", type: 'textarea' }
-                    ]},
-                    { title: "2. إجراءات التسوية والمساعي الودية:", questions: [
-                        { id: 'q_leg_4', label: "القضايا التي سُوّيت عبر الحوار والتفاوض المباشر:", type: 'textarea' },
-                        { id: 'q_leg_5', label: "التنسيق والملفات المرفوعة إلى مفتشيات العمل:", type: 'textarea' }
-                    ]},
-                    { title: "3. القضايا المحالة على العدالة:", questions: [
-                        { id: 'q_leg_6', label: "الملفات المعروضة على القضاء ومآلها:", type: 'textarea' }
-                    ]},
-                    { title: "4. القراءات القانونية والتوصيات الوقائية:", questions: [
-                        { id: 'q_leg_7', label: "تحليل أسباب تكرار بعض النزاعات وسبل تفاديها قانونياً:", type: 'textarea' }
-                    ]}
-                ]
-            },
-            'women': {
-                name: "أمانة التضامن وشؤون المرأة",
-                sections: [
-                    { title: "1. الانتشار والتوعية في الوسط النسوي:", questions: [
-                        { id: 'q_wom_1', label: "الحملات التوعوية المنظمة للتعريف بمنهج النقابة:", type: 'textarea' },
-                        { id: 'q_wom_2', label: "وتيرة انخراط العاملات والأستاذات بالقاعدة النضالية:", type: 'textarea' }
-                    ]},
-                    { title: "2. التكوين والتأهيل القيادي:", questions: [
-                        { id: 'q_wom_3', label: "الدورات واللقاءات لتأهيل القيادات النقابية النسوية:", type: 'textarea' },
-                        { id: 'q_wom_4', label: "رصد ودراسة المشاكل الخاصة بالمرأة العاملة:", type: 'textarea' }
-                    ]},
-                    { title: "3. ملفات الطفولة والمشاريع الاجتماعية:", questions: [
-                        { id: 'q_wom_5', label: "متابعة مشاريع استحداث ودعم دور الحضانة:", type: 'textarea' },
-                        { id: 'q_wom_6', label: "التضامن الأسري والمشاريع الداعمة للمرأة:", type: 'textarea' }
-                    ]},
-                    { title: "4. مقترحات العمل المستقبلي:", questions: [
-                        { id: 'q_wom_7', label: "مبادرات تشجيع الحضور النسوي في الهيئات القيادية:", type: 'textarea' }
-                    ]}
-                ]
-            }
-        };
-
-        // --- السجلات العادية ---
-        const normalRegisters = {
-            incoming: { id: 'incoming', title: 'سجل البريد الوارد', icon: 'fa-inbox', fields: [ { name: 'serial', label: 'الرقم التسلسلي', type: 'text' }, { name: 'date', label: 'تاريخ الاستلام', type: 'date' }, { name: 'sender', label: 'الجهة المرسلة', type: 'text' }, { name: 'subject', label: 'موضوع المراسلة', type: 'text', isFullWidth: true }, { name: 'original_ref', label: 'رقم وتاريخ المراسلة الأصلية', type: 'text', isFullWidth: true }, { name: 'action', label: 'التوجيه أو الإجراء', type: 'text', isFullWidth: true } ] },
-            outgoing: { id: 'outgoing', title: 'سجل البريد الصادر', icon: 'fa-paper-plane', fields: [ { name: 'serial', label: 'الرقم التسلسلي', type: 'text' }, { name: 'date', label: 'تاريخ الإصدار', type: 'date' }, { name: 'receiver', label: 'الجهة المرسل إليها', type: 'text', isFullWidth: true }, { name: 'subject', label: 'موضوع المراسلة', type: 'text', isFullWidth: true }, { name: 'attachments', label: 'المرفقات', type: 'text' }, { name: 'notes', label: 'ملاحظات', type: 'text' } ] },
-            complaints: { id: 'complaints', title: 'سجل الشكاوي والانشغالات', icon: 'fa-exclamation-circle', fields: [ { name: 'serial', label: 'الرقم', type: 'text' }, { name: 'date', label: 'تاريخ الاستلام', type: 'date' }, { name: 'name_phone', label: 'الاسم واللقب / رقم بطاقة الاتصال', type: 'text', isFullWidth: true }, { name: 'subject', label: 'موضوع الشكوى باختصار', type: 'text', isFullWidth: true }, { name: 'action', label: 'الإجراء النقابي المتخذ', type: 'text', isFullWidth: true }, { name: 'result', label: 'النتيجة (مآل الشكوى)', type: 'text', isFullWidth: true } ] },
-            meeting_minutes: { id: 'meeting_minutes', title: 'سجل الاجتماعات الدورية', icon: 'fa-users', fields: [ { name: 'meeting_num', label: 'محضر اجتماع دوري رقم', type: 'text' }, { name: 'date', label: 'التاريخ', type: 'date' }, { name: 'attendees', label: 'عدد الحاضرين', type: 'number' }, { name: 'excused', label: 'عدد الغائبين بعذر', type: 'number' }, { name: 'unexcused', label: 'عدد الغائبين بدون عذر', type: 'number' }, { name: 'item_num', label: 'الرقم', type: 'text' }, { name: 'agenda', label: 'نقاط جدول الأعمال', type: 'textarea', isFullWidth: true }, { name: 'summary', label: 'ملخص المناقشة', type: 'textarea', isFullWidth: true }, { name: 'decisions', label: 'القرارات والتوصيات المتخذة', type: 'textarea', isFullWidth: true }, { name: 'in_charge', label: 'المكلف بالمتابعة', type: 'text' }, { name: 'deliberations', label: 'المداولات', type: 'textarea', isFullWidth: true }, { name: 'outputs', label: 'المخرجات', type: 'textarea', isFullWidth: true } ] },
-            memberships: { id: 'memberships', title: 'توزيع بطاقات الانخراط', icon: 'fa-id-card', fields: [ { name: 'fullname', label: 'الاسم واللقب (القيادي)', type: 'text', isFullWidth: true }, { name: 'workplace', label: 'مؤسسة العمل / الولاية', type: 'text' }, { name: 'date', label: 'تاريخ التسليم', type: 'date' }, { name: 'card_from', label: 'رقم البطاقة من:', type: 'number' }, { name: 'card_count', label: 'عدد البطاقات (حصة العضو)', type: 'number', defaultValue: 50 }, { name: 'card_to', label: 'إلى:', type: 'number', readonly: true }, { name: 'payment_type', label: 'نسبة دفع الأمانة الوطنية', type: 'select', options: [{val: '50', text: '50%'}, {val: '100', text: '100%'}] }, { name: 'has_advance', label: 'تسبيق للمنسق الجهوي (20,000 دج)؟', type: 'select', options: [{val: 'no', text: 'لا'}, {val: 'yes', text: 'نعم'}] }, { name: 'advance_date', label: 'تاريخ دفع التسبيق', type: 'date' }, { name: 'amount_total', label: 'المبلغ الإجمالي (دج)', type: 'text', readonly: true }, { name: 'amount_national', label: 'الصافي للأمانة الوطنية (دج)', type: 'text', readonly: true } ] },
-            structures: { id: 'structures', title: 'تنصيب الهياكل', icon: 'fa-sitemap', fields: [ { name: 'structure_type', label: 'نوع الهيكل (أمانة/فرع)', type: 'text' }, { name: 'institution', label: 'المؤسسة التربوية / البلدية', type: 'text' }, { name: 'date', label: 'تاريخ التنصيب', type: 'date' }, { name: 'sec_gen_name', label: 'اسم الأمين العام', type: 'text' }, { name: 'phone', label: 'رقم الهاتف (واتساب)', type: 'text' }, { name: 'email', label: 'البريد الإلكتروني', type: 'email' }, { name: 'members_count', label: 'المنخرطين الفعليين (ببطاقة)', type: 'number', isFullWidth: true } ] }
-        };
-
-        const reportModule = {
-            id: 'periodic_reports',
-            title: 'إعداد التقارير الدورية',
-            icon: 'fa-file-contract',
-            isReport: true,
-            baseFields: [
-                { name: 'report_type', label: 'اختر نوع الأمانة لإعداد تقريرها:', type: 'select', isFullWidth: true, options: [
-                    {val: 'org', text: 'أمانة التنظيم والتنسيق'},
-                    {val: 'writing', text: 'أمانة الكتابة والعلاقات العامة'},
-                    {val: 'finance', text: 'أمانة المالية والوسائل'},
-                    {val: 'edu', text: 'أمانة التربية والتكوين النقابي'},
-                    {val: 'social', text: 'أمانة الشؤون الاجتماعية'},
-                    {val: 'media', text: 'أمانة الإعلام والاتصال'},
-                    {val: 'legal', text: 'أمانة المنازعات والشؤون القانونية'},
-                    {val: 'women', text: 'أمانة التضامن وشؤون المرأة'}
-                ]},
-                { name: 'trimester', label: 'الثلاثي', type: 'select', options: [{val: 'الأول', text: 'الثلاثي الأول'}, {val: 'الثاني', text: 'الثلاثي الثاني'}, {val: 'الثالث', text: 'الثلاثي الثالث'}, {val: 'الرابع', text: 'الثلاثي الرابع'}] },
-                { name: 'year', label: 'السنة', type: 'number', defaultValue: new Date().getFullYear() }
-            ]
-        };
-
-        let currentRegister = 'incoming';
-        let currentMode = 'register'; // 'register' or 'report'
-        let wilayaName = localStorage.getItem('syndicate_wilaya') || 'الجلفة';
-
-        function initApp() {
-            updateWilayaDisplay();
-            renderNavButtons();
-            loadRegister(currentRegister, 'register');
-
-            document.getElementById('data-form').addEventListener('submit', function(e) {
-                e.preventDefault();
-                saveData();
-            });
+<script>
+    function toggleKids() {
+        const family = document.getElementById('family').value;
+        const kidsInput = document.getElementById('kids');
+        if (family === 'married_kids') {
+            kidsInput.disabled = false;
+            if(kidsInput.value == 0) kidsInput.value = 1;
+        } else {
+            kidsInput.disabled = true;
+            kidsInput.value = 0;
         }
+    }
 
-        function changeWilaya() {
-            let newName = prompt("أدخل اسم الولاية (مثال: الجلفة، الجزائر، وهران):", wilayaName);
-            if (newName && newName.trim() !== "") {
-                wilayaName = newName.trim();
-                localStorage.setItem('syndicate_wilaya', wilayaName);
-                updateWilayaDisplay();
-            }
-        }
+    document.getElementById('calculatorForm').addEventListener('submit', function(e) {
+        e.preventDefault();
 
-        function updateWilayaDisplay() {
-            document.getElementById('display-wilaya').innerText = `الأمانة الولائية لولاية ${wilayaName}`;
-        }
+        const rank = parseInt(document.getElementById('rank').value);
+        const degree = parseInt(document.getElementById('degree').value);
+        const currentSalary = parseFloat(document.getElementById('currentSalary').value);
+        const currentMardoudia = parseFloat(document.getElementById('currentMardoudia').value);
 
-        function toggleEntrySection() {
-            const entrySection = document.getElementById('entry-section');
-            const btnIcon = document.querySelector('#toggle-form-btn i');
-            
-            entrySection.classList.toggle('hidden');
-            if (entrySection.classList.contains('hidden')) {
-                btnIcon.classList.remove('fa-eye-slash');
-                btnIcon.classList.add('fa-eye');
-                document.getElementById('toggle-form-btn').innerHTML = '<i class="fa-solid fa-eye"></i> إظهار الإدخال';
-            } else {
-                btnIcon.classList.remove('fa-eye');
-                btnIcon.classList.add('fa-eye-slash');
-                document.getElementById('toggle-form-btn').innerHTML = '<i class="fa-solid fa-eye-slash"></i> إخفاء الإدخال';
-            }
-        }
+        const pointsAdded = 169;
+        const pointValue = 45;
+        const baseIncreaseBrut = pointsAdded * pointValue;
 
-        function renderNavButtons() {
-            const navContainer = document.getElementById('nav-buttons');
-            navContainer.innerHTML = '';
-            
-            // قسم السجلات
-            const regTitle = document.createElement('div');
-            regTitle.className = 'nav-section-title';
-            regTitle.innerText = 'قسم السجلات الإدارية';
-            navContainer.appendChild(regTitle);
+        const iepRate = degree * 0.04;
+        const iepIncrease = baseIncreaseBrut * iepRate;
 
-            for (const key in normalRegisters) {
-                const reg = normalRegisters[key];
-                const btn = document.createElement('button');
-                btn.className = `nav-btn ${currentMode === 'register' && key === currentRegister ? 'active' : ''}`;
-                btn.innerHTML = `<i class="fa-solid ${reg.icon}"></i> ${reg.title}`;
-                btn.onclick = () => {
-                    backToTable();
-                    currentRegister = key;
-                    currentMode = 'register';
-                    renderNavButtons();
-                    loadRegister(key, 'register');
-                };
-                navContainer.appendChild(btn);
-            }
+        const otherAllowancesRate = 0.15; 
+        const otherAllowancesIncrease = baseIncreaseBrut * otherAllowancesRate;
 
-            // قسم التقارير
-            const repTitle = document.createElement('div');
-            repTitle.className = 'nav-section-title';
-            repTitle.style.backgroundColor = 'var(--primary-green)';
-            repTitle.innerText = 'قسم التقارير الرسمية';
-            navContainer.appendChild(repTitle);
+        const totalBrutIncrease = baseIncreaseBrut + iepIncrease + otherAllowancesIncrease;
 
-            const repBtn = document.createElement('button');
-            repBtn.className = `nav-btn ${currentMode === 'report' ? 'active' : ''}`;
-            repBtn.innerHTML = `<i class="fa-solid ${reportModule.icon}"></i> ${reportModule.title}`;
-            repBtn.onclick = () => {
-                backToTable();
-                currentRegister = reportModule.id;
-                currentMode = 'report';
-                renderNavButtons();
-                loadRegister(reportModule.id, 'report');
-            };
-            navContainer.appendChild(repBtn);
-        }
+        const ssIncrease = totalBrutIncrease * 0.09;
+        const taxableIncrease = totalBrutIncrease - ssIncrease;
+        const irgRate = 0.15; 
+        const irgIncrease = taxableIncrease * irgRate;
 
-        function loadRegister(regKey, mode) {
-            document.getElementById('alert-container').innerHTML = '';
-            const fieldsContainer = document.getElementById('dynamic-fields');
-            const questionsContainer = document.getElementById('report-questions-container');
-            fieldsContainer.innerHTML = '';
-            questionsContainer.innerHTML = '';
-            
-            if (mode === 'register') {
-                const reg = normalRegisters[regKey];
-                document.getElementById('current-title').innerHTML = `<i class="fa-solid ${reg.icon}"></i> ${reg.title}`;
-                document.getElementById('print-title').innerText = reg.title; 
-                document.getElementById('header-visa').style.display = 'block'; 
-                document.getElementById('form-title').innerText = "إضافة تسجيل جديد";
-                questionsContainer.style.display = 'none';
-                
-                reg.fields.forEach(field => {
-                    const group = document.createElement('div');
-                    group.className = `form-group ${field.isFullWidth ? 'full-width' : ''}`;
-                    group.id = `group_${field.name}`;
-                    
-                    let inputElement = '';
-                    if (field.type === 'textarea') {
-                        inputElement = `<textarea id="${field.name}" required></textarea>`;
-                    } else if (field.type === 'select') {
-                        let optionsHtml = field.options.map(opt => `<option value="${opt.val}">${opt.text}</option>`).join('');
-                        inputElement = `<select id="${field.name}">${optionsHtml}</select>`;
-                    } else {
-                        let extraAttrs = field.readonly ? 'readonly tabindex="-1"' : 'required';
-                        if(field.name === 'advance_date') extraAttrs = ''; 
-                        let defaultVal = field.defaultValue !== undefined ? `value="${field.defaultValue}"` : '';
-                        inputElement = `<input type="${field.type}" id="${field.name}" ${extraAttrs} ${defaultVal}>`;
-                    }
-                    group.innerHTML = `<label>${field.label}</label>${inputElement}`;
-                    fieldsContainer.appendChild(group);
-                });
+        const netSalaryIncrease = totalBrutIncrease - ssIncrease - irgIncrease;
 
-                if (regKey === 'memberships') {
-                    document.getElementById('alert-container').innerHTML = `
-                        <div class="alert-box">
-                            <i class="fa-solid fa-triangle-exclamation"></i> <strong>تنبيه إجباري:</strong> على الأمانة الولائية تقديم مبلغ البطاقات بعد 45 يوم من استلامها.
-                        </div>
-                    `;
-                    const calcMembership = () => {
-                        let from = parseInt(document.getElementById('card_from').value) || 0;
-                        let count = parseInt(document.getElementById('card_count').value) || 0;
-                        if (from > 0 && count > 0) document.getElementById('card_to').value = from + count - 1;
-                        else document.getElementById('card_to').value = '';
-                        
-                        let total = count * 100;
-                        document.getElementById('amount_total').value = total + ' د.ج';
-                        let pType = document.getElementById('payment_type').value;
-                        let hasAdv = document.getElementById('has_advance').value;
-                        let nationalAmount = (pType === '50') ? (total * 0.5) : total;
-                        if (hasAdv === 'yes') {
-                            document.getElementById('group_advance_date').style.display = 'flex';
-                            document.getElementById('advance_date').setAttribute('required', 'required');
-                            nationalAmount -= 20000;
-                        } else {
-                            document.getElementById('group_advance_date').style.display = 'none';
-                            document.getElementById('advance_date').removeAttribute('required');
-                            document.getElementById('advance_date').value = '';
-                        }
-                        document.getElementById('amount_national').value = nationalAmount + ' د.ج';
-                    };
-                    ['card_from', 'card_count', 'payment_type', 'has_advance'].forEach(id => {
-                        document.getElementById(id).addEventListener('input', calcMembership);
-                        document.getElementById(id).addEventListener('change', calcMembership);
-                    });
-                    calcMembership(); 
-                }
+        // منحة المردودية 40% للتأطير والتفتيش (صنف 16 وما فوق)، و30% للبقية
+        const mardoudiaRate = (rank >= 16) ? 0.40 : 0.30;
+        
+        const mardoudiaBrutInc3Months = (baseIncreaseBrut * mardoudiaRate) * 3;
+        
+        const mardoudiaSS = mardoudiaBrutInc3Months * 0.09;
+        const mardoudiaIRG = (mardoudiaBrutInc3Months - mardoudiaSS) * 0.10;
+        
+        const netMardoudiaIncrease = mardoudiaBrutInc3Months - mardoudiaSS - mardoudiaIRG;
 
-                const tableHead = document.getElementById('table-head');
-                tableHead.innerHTML = '';
-                reg.fields.forEach(field => {
-                    const th = document.createElement('th');
-                    th.innerText = field.label;
-                    tableHead.appendChild(th);
-                });
-                const thAction = document.createElement('th');
-                thAction.className = 'no-export'; 
-                thAction.innerText = 'إجراء';
-                tableHead.appendChild(thAction);
+        document.getElementById('resSalaryIncrease').innerText = Math.round(netSalaryIncrease).toLocaleString('fr-FR') + ' دج';
+        document.getElementById('resNewSalary').innerText = Math.round(currentSalary + netSalaryIncrease).toLocaleString('fr-FR') + ' دج';
+        
+        document.getElementById('resMardoudiaIncrease').innerText = Math.round(netMardoudiaIncrease).toLocaleString('fr-FR') + ' دج';
+        document.getElementById('resNewMardoudia').innerText = Math.round(currentMardoudia + netMardoudiaIncrease).toLocaleString('fr-FR') + ' دج';
 
-            } else if (mode === 'report') {
-                document.getElementById('current-title').innerHTML = `<i class="fa-solid ${reportModule.icon}"></i> ${reportModule.title}`;
-                document.getElementById('print-title').innerText = "التقارير الدورية المنجزة"; 
-                document.getElementById('form-title').innerText = "إعداد تقرير جديد (إجابة على الأسئلة)";
-                questionsContainer.style.display = 'grid';
+        const resultCard = document.getElementById('resultCard');
+        resultCard.style.display = 'block';
+        resultCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    });
+</script>
 
-                // رسم الحقول الأساسية
-                reportModule.baseFields.forEach(field => {
-                    const group = document.createElement('div');
-                    group.className = `form-group ${field.isFullWidth ? 'full-width' : ''}`;
-                    let inputElement = '';
-                    if (field.type === 'select') {
-                        let optionsHtml = field.options.map(opt => `<option value="${opt.val}">${opt.text}</option>`).join('');
-                        inputElement = `<select id="${field.name}">${optionsHtml}</select>`;
-                    } else {
-                        inputElement = `<input type="${field.type}" id="${field.name}" required value="${field.defaultValue||''}">`;
-                    }
-                    group.innerHTML = `<label>${field.label}</label>${inputElement}`;
-                    fieldsContainer.appendChild(group);
-                });
-
-                // دالة رسم أسئلة الاستبيان ديناميكياً
-                const buildQuestionnaire = () => {
-                    let type = document.getElementById('report_type').value;
-                    let model = reportQuestionnaires[type];
-                    questionsContainer.innerHTML = ''; // مسح القديم
-
-                    model.sections.forEach((sec, sIdx) => {
-                        const secTitle = document.createElement('div');
-                        secTitle.className = 'report-section-header';
-                        secTitle.innerText = sec.title;
-                        questionsContainer.appendChild(secTitle);
-
-                        sec.questions.forEach(q => {
-                            const group = document.createElement('div');
-                            group.className = 'form-group full-width';
-                            let inputElement = '';
-                            if(q.type === 'textarea') {
-                                inputElement = `<textarea id="${q.id}" placeholder="اكتب إجابتك هنا..." required></textarea>`;
-                            } else {
-                                inputElement = `<input type="${q.type}" id="${q.id}" required>`;
-                            }
-                            group.innerHTML = `<label>${q.label}</label>${inputElement}`;
-                            questionsContainer.appendChild(group);
-                        });
-                    });
-                };
-
-                document.getElementById('report_type').addEventListener('change', buildQuestionnaire);
-                buildQuestionnaire(); // تشغيل أولي
-
-                const tableHead = document.getElementById('table-head');
-                tableHead.innerHTML = '';
-                ['الأمانة المعنية', 'الثلاثي', 'السنة', 'إجراء'].forEach(h => {
-                    const th = document.createElement('th');
-                    if (h === 'إجراء') th.className = 'no-export';
-                    th.innerText = h;
-                    tableHead.appendChild(th);
-                });
-            }
-            renderTableData();
-        }
-
-        function saveData() {
-            const newItem = { id: Date.now() };
-            
-            if (currentMode === 'register') {
-                const reg = normalRegisters[currentRegister];
-                reg.fields.forEach(f => {
-                    let el = document.getElementById(f.name);
-                    if (el) newItem[f.name] = el.value;
-                });
-                if(currentRegister === 'memberships') {
-                    document.getElementById('card_count').value = 50;
-                    document.getElementById('group_advance_date').style.display = 'none';
-                    document.getElementById('amount_total').value = '5000 د.ج';
-                    document.getElementById('amount_national').value = '2500 د.ج';
-                }
-            } else {
-                // حفظ التقرير
-                reportModule.baseFields.forEach(f => {
-                    newItem[f.name] = document.getElementById(f.name).value;
-                });
-                
-                let type = document.getElementById('report_type').value;
-                let model = reportQuestionnaires[type];
-                newItem.answers = {};
-                model.sections.forEach(sec => {
-                    sec.questions.forEach(q => {
-                        newItem.answers[q.id] = document.getElementById(q.id).value;
-                    });
-                });
-                // إعادة رسم الأسئلة لتفريغها
-                document.getElementById('report_type').dispatchEvent(new Event('change'));
-            }
-
-            let allData = JSON.parse(localStorage.getItem(`syndicate_${currentRegister}`)) || [];
-            allData.push(newItem);
-            localStorage.setItem(`syndicate_${currentRegister}`, JSON.stringify(allData));
-            
-            // تصفير الحقول العادية
-            reportModule.baseFields.forEach(f => {
-                if(f.name !== 'report_type') document.getElementById(f.name).value = f.defaultValue || '';
-            });
-            if (currentMode === 'register') document.getElementById('data-form').reset();
-
-            renderTableData();
-        }
-
-        function renderTableData() {
-            const allData = JSON.parse(localStorage.getItem(`syndicate_${currentRegister}`)) || [];
-            const tbody = document.getElementById('table-body');
-            tbody.innerHTML = '';
-
-            allData.slice().reverse().forEach(row => {
-                const tr = document.createElement('tr');
-                
-                if (currentMode === 'report') {
-                    let model = reportQuestionnaires[row.report_type];
-                    let repName = model ? model.name : row.report_type;
-                    tr.innerHTML = `
-                        <td><strong>${repName}</strong></td>
-                        <td>${row.trimester}</td>
-                        <td>${row.year}</td>
-                        <td class="no-export">
-                            <button class="action-icon-btn btn-view" title="عرض وطباعة المستند" onclick="viewReport(${row.id})"><i class="fa-solid fa-print"></i> عرض/طباعة</button>
-                            <button class="action-icon-btn delete-btn" title="حذف" onclick="deleteRecord('${currentRegister}', ${row.id})"><i class="fa-solid fa-trash"></i></button>
-                        </td>
-                    `;
-                } else {
-                    const reg = normalRegisters[currentRegister];
-                    reg.fields.forEach(field => {
-                        const td = document.createElement('td');
-                        let cellValue = row[field.name] || '';
-                        if (field.type === 'select') {
-                            let opt = field.options.find(o => o.val === cellValue);
-                            cellValue = opt ? opt.text : cellValue;
-                        }
-                        if (currentRegister === 'structures' && field.name === 'phone' && cellValue) {
-                            let phoneClean = cellValue.replace(/[^0-9]/g, ''); 
-                            td.innerHTML = `<a href="https://wa.me/${phoneClean}" target="_blank" class="whatsapp-link"><i class="fab fa-whatsapp"></i> ${cellValue}</a>`;
-                        } else {
-                            td.innerText = cellValue;
-                        }
-                        if (field.type === 'textarea') td.className = 'multiline-text';
-                        tr.appendChild(td);
-                    });
-                    
-                    const tdAction = document.createElement('td');
-                    tdAction.className = 'no-export';
-                    tdAction.innerHTML = `<button class="action-icon-btn delete-btn" title="حذف السجل" onclick="deleteRecord('${currentRegister}', ${row.id})"><i class="fa-solid fa-trash"></i></button>`;
-                    tr.appendChild(tdAction);
-                }
-                tbody.appendChild(tr);
-            });
-        }
-
-        // --- نظام بناء وعرض المستند الرسمي ---
-        function viewReport(id) {
-            const allData = JSON.parse(localStorage.getItem(`syndicate_periodic_reports`)) || [];
-            const report = allData.find(item => item.id === id);
-            if (!report) return;
-
-            let model = reportQuestionnaires[report.report_type];
-            let reportHtml = `
-                <div class="report-intro">
-                    <div class="to-sg">إلى السيد: الأمين العام للنقابة</div>
-                    <div style="color:var(--primary-green); font-size: 1.4rem; border-bottom: 2px solid var(--border-color); padding-bottom:10px;">
-                        الموضوع: التقرير الثلاثي لنشاطات ${model.name} (الثلاثي: ${report.trimester} - لسنة: ${report.year})
-                    </div>
-                </div>
-            `;
-
-            model.sections.forEach(sec => {
-                reportHtml += `<div class="report-section"><h4>${sec.title}</h4>`;
-                sec.questions.forEach(q => {
-                    let ans = report.answers[q.id] || "لا يوجد بيانات";
-                    reportHtml += `
-                        <div class="report-qa-block">
-                            <div class="report-q">${q.label}</div>
-                            <div class="report-a">${ans}</div>
-                        </div>
-                    `;
-                });
-                reportHtml += `</div>`;
-            });
-
-            let today = new Date().toLocaleDateString('ar-DZ');
-            reportHtml += `
-                <div class="report-footer">
-                    <div></div>
-                    <div style="text-align: center;">
-                        حرر بـ: ${wilayaName} في: ${today}<br><br>
-                        المكلف بـ ${model.name.replace('أمانة ', '')}<br><br>
-                        (الاسم، اللقب والختم)
-                    </div>
-                </div>
-            `;
-
-            document.getElementById('print-title').innerText = ''; 
-            document.getElementById('header-visa').style.display = 'none'; 
-
-            document.getElementById('report-document-view').innerHTML = reportHtml;
-            document.getElementById('main-table-view').style.display = 'none';
-            document.getElementById('report-document-view').style.display = 'block';
-            document.getElementById('btn-back-table').style.display = 'inline-flex';
-        }
-
-        function backToTable() {
-            document.getElementById('main-table-view').style.display = 'block';
-            document.getElementById('report-document-view').style.display = 'none';
-            document.getElementById('btn-back-table').style.display = 'none';
-            
-            if(currentMode === 'report') {
-                document.getElementById('print-title').innerText = "التقارير الدورية المنجزة";
-                document.getElementById('header-visa').style.display = 'block';
-            } else {
-                document.getElementById('print-title').innerText = normalRegisters[currentRegister].title;
-                document.getElementById('header-visa').style.display = 'block';
-            }
-        }
-
-        function deleteRecord(regKey, id) {
-            if(confirm('هل أنت متأكد من حذف هذا السجل بشكل نهائي؟')) {
-                let allData = JSON.parse(localStorage.getItem(`syndicate_${regKey}`)) || [];
-                allData = allData.filter(item => item.id !== id);
-                localStorage.setItem(`syndicate_${regKey}`, JSON.stringify(allData));
-                renderTableData();
-            }
-        }
-
-        function exportBackup() {
-            const data = localStorage.getItem(`syndicate_${currentRegister}`) || '[]';
-            const blob = new Blob([data], { type: 'application/json' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `backup_${currentRegister}_${new Date().toISOString().slice(0,10)}.json`;
-            a.click();
-            URL.revokeObjectURL(url);
-        }
-
-        function importBackup(event) {
-            const file = event.target.files[0];
-            if (!file) return;
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                try {
-                    const importedData = JSON.parse(e.target.result);
-                    if (Array.isArray(importedData)) {
-                        let currentData = JSON.parse(localStorage.getItem(`syndicate_${currentRegister}`)) || [];
-                        let combined = [...currentData, ...importedData];
-                        combined = combined.filter((v,i,a)=>a.findIndex(t=>(t.id === v.id))===i);
-                        localStorage.setItem(`syndicate_${currentRegister}`, JSON.stringify(combined));
-                        renderTableData();
-                        alert('تم استيراد البيانات بنجاح!');
-                    } else { alert('صيغة الملف غير صحيحة.'); }
-                } catch(err) { alert('حدث خطأ أثناء قراءة الملف.'); }
-            };
-            reader.readAsText(file);
-            event.target.value = ''; 
-        }
-
-        function exportWord() {
-            const printAreaClone = document.getElementById('print-area').cloneNode(true);
-            const noExports = printAreaClone.querySelectorAll('.no-export');
-            noExports.forEach(el => el.remove());
-
-            const docTitle = currentMode === 'report' ? 'التقارير_الرسمية' : normalRegisters[currentRegister].title;
-
-            const htmlContent = `
-                <html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
-                <head>
-                    <meta charset='utf-8'>
-                    <title>${docTitle}</title>
-                    <style>
-                        body { font-family: 'Arial', sans-serif; direction: rtl; }
-                        table { border-collapse: collapse; width: 100%; direction: rtl; margin-top: 20px;}
-                        th, td { border: 1px solid #000; padding: 8px; text-align: right; }
-                        th { background-color: #007a3d; color: white; }
-                        .official-header { text-align: center; margin-bottom: 20px; }
-                        .header-top-row { display: flex; justify-content: space-between; font-weight: bold; }
-                        .header-bottom-row { display: flex; justify-content: space-between; font-weight: bold; margin-top: 15px; font-size: 1.2rem; }
-                        .report-section { margin-bottom: 20px; }
-                        .report-section h4 { color: #007a3d; font-size: 14pt; margin-bottom: 10px; border-bottom: 2px solid #ce1126;}
-                        .report-qa-block { margin-bottom: 10px; }
-                        .report-q { font-weight: bold; color: #333; margin-bottom: 5px; }
-                        .report-a { margin-right: 20px; font-size: 12pt; white-space: pre-wrap; }
-                        .report-footer { margin-top: 40px; display: flex; justify-content: space-between; font-weight: bold; }
-                    </style>
-                </head>
-                <body>
-                    ${printAreaClone.innerHTML}
-                </body>
-                </html>
-            `;
-            const blob = new Blob(['\ufeff', htmlContent], { type: 'application/msword' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `${docTitle}.doc`;
-            a.click();
-            URL.revokeObjectURL(url);
-        }
-
-        function exportPDF() {
-            const docTitle = currentMode === 'report' ? 'التقارير_الرسمية' : normalRegisters[currentRegister].title;
-            const element = document.getElementById('print-area').cloneNode(true);
-            
-            const noExports = element.querySelectorAll('.no-export');
-            noExports.forEach(el => el.remove());
-            
-            let isReportMode = document.getElementById('report-document-view').style.display === 'block';
-            let orientationMode = isReportMode ? 'portrait' : 'landscape';
-
-            const opt = {
-                margin:       0.4,
-                filename:     `${docTitle}.pdf`,
-                image:        { type: 'jpeg', quality: 0.98 },
-                html2canvas:  { scale: 2, useCORS: true },
-                jsPDF:        { unit: 'in', format: 'a4', orientation: orientationMode }
-            };
-
-            html2pdf().set(opt).from(element).save();
-        }
-
-        window.onload = initApp;
-    </script>
 </body>
 </html>
